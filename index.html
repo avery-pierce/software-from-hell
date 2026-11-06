@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Software From Hell — a haunted school. Tutorials and lessons on running local LLMs and taming desktop tools, served straight off the tape."
+      content="Software From Hell — a haunted school. Tutorials and lessons on running local LLMs and and desktop tools, for the machines that run in the dark."
     />
     <title>Software From Hell — The Haunted School</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,7 +53,7 @@
         inset: -10%;
         z-index: 30;
         pointer-events: none;
-        opacity: 0.055;
+        opacity: 0.04;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
         animation: static-jitter 0.42s steps(3) infinite;
       }
@@ -83,31 +83,6 @@
           transparent 1px,
           transparent 3px
         );
-      }
-      .tracking {
-        position: fixed;
-        left: 0;
-        right: 0;
-        z-index: 32;
-        pointer-events: none;
-        height: 3.5rem;
-        background: linear-gradient(
-          180deg,
-          transparent,
-          rgba(232, 224, 208, 0.06) 45%,
-          rgba(255, 46, 46, 0.07) 50%,
-          rgba(232, 224, 208, 0.06) 55%,
-          transparent
-        );
-        animation: tracking-roll 9s linear infinite;
-      }
-      @keyframes tracking-roll {
-        0% {
-          top: -15%;
-        }
-        100% {
-          top: 110%;
-        }
       }
       .page {
         animation: screen-flicker 7s infinite;
@@ -297,7 +272,7 @@
         margin: 1rem 0 1.5rem;
       }
 
-      /* ---------- lesson cards (tape cassettes) ---------- */
+      /* ---------- lesson cards ---------- */
       .tapes {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -308,19 +283,6 @@
         border: 1px solid var(--line);
         background: var(--tape);
         padding: 1.25rem 1.25rem 1rem;
-      }
-      .tape::before {
-        /* the two cassette holes */
-        content: "";
-        position: absolute;
-        top: 0.7rem;
-        right: 0.9rem;
-        width: 2.4rem;
-        height: 0.55rem;
-        border: 1px solid var(--line);
-        background:
-          radial-gradient(circle at 0.7rem 50%, var(--bg) 0.28rem, transparent 0.3rem),
-          radial-gradient(circle at 1.7rem 50%, var(--bg) 0.28rem, transparent 0.3rem);
       }
       .tape .meta-line {
         display: flex;
@@ -421,7 +383,7 @@
       }
       /* keep the haunt quiet for people who ask */
       @media (prefers-reduced-motion: reduce) {
-        .static, .tracking, .page, .marquee .belt,
+        .static, .page, .marquee .belt,
         h1.shaky .ch, .rec .dot, .tape.live .foot .status .dot {
           animation: none;
         }
@@ -431,26 +393,24 @@
   <body>
     <div class="static" aria-hidden="true"></div>
     <div class="scanlines" aria-hidden="true"></div>
-    <div class="tracking" aria-hidden="true"></div>
-    <div class="rec">
-      <span class="t"><span class="dot" aria-hidden="true"></span>REC</span>
+        <div class="rec">
+      <span class="t"><span class="dot" aria-hidden="true"></span>LIVE</span>
       <span id="tape-date">10-31-1986&nbsp; 00:00:00</span>
     </div>
 
     <div class="page">
       <div class="marquee" aria-hidden="true">
         <span class="belt"
-          ><b>&#9888; DO NOT ADJUST YOUR SET</b> &#9888; THE TAPES REMEMBER
-          &#9888; LEARNING IS FOREVER &#9888; IT IS ALREADY WATCHING
-          &#9888; REWIND, LEARN, RUN &#9888; DO NOT ADJUST YOUR SET
-          &#9888; THE TAPES REMEMBER &#9888; LEARNING IS FOREVER
-          &#9888; IT IS ALREADY WATCHING &#9888; REWIND, LEARN, RUN &#9888;&nbsp;</span
+          ><b>&#9888; IT IS ALREADY WATCHING</b> &#9888; LEARNING IS FOREVER
+          &#9888; NO PREREQUISITES, NO MERCY &#9888; STUDY AT YOUR OWN PERIL
+          &#9888; IT LEARNS WHILE YOU SLEEP &#9888; IT IS ALREADY WATCHING
+          &#9888; LEARNING IS FOREVER &#9888; NO PREREQUISITES, NO MERCY &#9888;&nbsp;</span
         >
       </div>
 
       <header class="hero">
         <div class="wrap">
-          <span class="tape-label">A HOME VIDEO IN TWO TRACKS</span>
+          <span class="tape-label">A HANDBOOK IN TWO PARTS</span>
           <h1 class="shaky" aria-label="Software From Hell">
             <span class="w" aria-hidden="true"><span class="ch">S</span><span class="ch">o</span><span class="ch">f</span><span class="ch">t</span><span class="ch">w</span><span class="ch">a</span><span class="ch">r</span><span class="ch">e</span></span>
             <span class="w" aria-hidden="true"><span class="ch">F</span><span class="ch">r</span><span class="ch">o</span><span class="ch">m</span></span>
@@ -459,14 +419,14 @@
           <p class="tagline">
             The Haunted School. Tutorials and lessons on the machines that run
             in the dark — <b>local LLMs</b> and <b>desktop tools</b> — served
-            straight off the tape. No cloud. No mercy. No prerequisites.
+            cold, in the dark. No cloud. No mercy. No prerequisites.
           </p>
         </div>
       </header>
 
       <main class="wrap">
         <!-- ================= TRACK 1 : LOCAL LLM ================= -->
-        <h2 class="track-label"><span class="side">TRACK 1</span> Local LLM Tutorials</h2>
+        <h2 class="track-label"><span class="side">PART 1</span> Local LLM Tutorials</h2>
         <div class="rule" aria-hidden="true"></div>
         <p class="track-sub">
           Summon a language model on your own machine and keep it there.
@@ -475,7 +435,7 @@
 
         <div class="tapes">
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 01</span><span>Side A</span></div>
+            <div class="meta-line"><span class="ep">L-01</span><span>Part 1</span></div>
             <h3>Conjure a Model</h3>
             <p class="desc">
               Your first local LLM, running on your own machine. What
@@ -483,79 +443,79 @@
               answers you.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Recorded</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
               <span class="dur">~10 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 02</span><span>Side A</span></div>
+            <div class="meta-line"><span class="ep">L-02</span><span>Part 1</span></div>
             <h3>The Summoning Circle</h3>
             <p class="desc">
               Talking to your model through a prompt. How context works, why it
               forgets you, and how to talk so it doesn&rsquo;t.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Recorded</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
               <span class="dur">~12 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 03</span><span>Side A</span></div>
+            <div class="meta-line"><span class="ep">L-03</span><span>Part 1</span></div>
             <h3>Pick Your Demon</h3>
             <p class="desc">
               Model sizes, quantizations, and the arithmetic of what your
               hardware can actually hold. Learn what fits before it bites.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~15 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 04</span><span>Side B</span></div>
+            <div class="meta-line"><span class="ep">L-04</span><span>Part 1</span></div>
             <h3>It Has a Mouth (APIs)</h3>
             <p class="desc">
               Your model speaks HTTP now. OpenAI-style endpoints, your first
               curl, and how software talks to the things you&rsquo;ve summoned.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~18 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 05</span><span>Side B</span></div>
+            <div class="meta-line"><span class="ep">L-05</span><span>Part 1</span></div>
             <h3>Tools, and Leashes</h3>
             <p class="desc">
               Agentic models: giving your local LLM real tools — files, shells,
               the web — and building leashes so it can&rsquo;t wander far.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~20 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 06</span><span>Side C</span></div>
+            <div class="meta-line"><span class="ep">L-06</span><span>Part 1</span></div>
             <h3>The Long Confinement</h3>
             <p class="desc">
               Keeping a local model alive: memory, thermal noise, daily
               discipline, and the small rituals of running one on a laptop.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~14 min</span>
             </div>
           </article>
         </div>
 
         <!-- ================= TRACK 2 : DESKTOP TOOLS ================= -->
-        <h2 class="track-label"><span class="side">TRACK 2</span> Desktop Tools</h2>
+        <h2 class="track-label"><span class="side">PART 2</span> Desktop Tools</h2>
         <div class="rule" aria-hidden="true"></div>
         <p class="track-sub">
           The machine is a place with rooms. Learn the terminal, the files,
@@ -564,79 +524,79 @@
 
         <div class="tapes">
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 01</span><span>Side A</span></div>
+            <div class="meta-line"><span class="ep">L-01</span><span>Part 2</span></div>
             <h3>The Terminal Awaits</h3>
             <p class="desc">
               The command line without dread: where you are, where things go,
               and the ten commands that open every other door.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~12 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 02</span><span>Side A</span></div>
+            <div class="meta-line"><span class="ep">L-02</span><span>Part 2</span></div>
             <h3>Things in the Dark (Files)</h3>
             <p class="desc">
               Paths, permissions, and the file tree as a house. Find anything,
               once, forever.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~10 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 03</span><span>Side A</span></div>
+            <div class="meta-line"><span class="ep">L-03</span><span>Part 2</span></div>
             <h3>The Humming Routines</h3>
             <p class="desc">
               Scheduling: cron and friends. Teach the machine a small ritual
               it repeats while you sleep — and how to make it stop.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~14 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 04</span><span>Side B</span></div>
+            <div class="meta-line"><span class="ep">L-04</span><span>Part 2</span></div>
             <h3>Two Machines, One Will</h3>
             <p class="desc">
               Scripting desktop apps from the shell. Clicks become commands;
               commands become habits.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~16 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 05</span><span>Side B</span></div>
+            <div class="meta-line"><span class="ep">L-05</span><span>Part 2</span></div>
             <h3>The Sealed Vaults (Backups)</h3>
             <p class="desc">
               The 3-2-1 rule, tested restores, and the difference between
               having data and keeping it.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~11 min</span>
             </div>
           </article>
 
           <article class="tape">
-            <div class="meta-line"><span class="ep">EP 06</span><span>Side C</span></div>
+            <div class="meta-line"><span class="ep">L-06</span><span>Part 2</span></div>
             <h3>It Watches (Monitoring)</h3>
             <p class="desc">
               Knowing the machine is alive: simple checks, logs, and the
               difference between a machine that works and one you can trust.
             </p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
               <span class="dur">~13 min</span>
             </div>
           </article>
@@ -647,7 +607,7 @@
         <div class="wrap">
           <span class="hot">Turn it off. It learns.</span>
           © <span id="yr">1986</span> Software From Hell — The Haunted School.
-          Recorded on machines that were never asked.
+          Written on machines that were never asked.
           <div class="fine">
             No cookies. No cloud. No mercy.
           </div>
@@ -656,7 +616,7 @@
     </div>
 
     <script>
-      // tape date stamp: today, in 1986 fashion
+      // date stamp: today, in 1986 fashion
       const d = new Date();
       const p = (n) => String(n).padStart(2, "0");
       document.getElementById("tape-date").textContent =
