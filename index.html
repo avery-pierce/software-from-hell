@@ -130,7 +130,7 @@
       /* ---------- stats bar ---------- */
       .stats {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         border-top: 1px solid var(--line);
         border-bottom: 1px solid var(--line);
       }
@@ -143,6 +143,7 @@
       }
       .stat .num {
         display: block;
+        overflow-wrap: anywhere;
         font-size: clamp(1.1rem, 2.6vw, 1.6rem);
         letter-spacing: 0.02em;
         margin-bottom: 0.35rem;
@@ -246,7 +247,7 @@
       /* ---------- product cards ---------- */
       .grid-2 {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.25rem;
       }
       .card {
@@ -384,7 +385,7 @@
       }
       .grid-3 {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1.25rem;
       }
       .ticket .top {
@@ -434,7 +435,7 @@
       /* ---------- responsive ---------- */
       @media (max-width: 48rem) {
         .stats {
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
         .stat {
           border-left: 0;
