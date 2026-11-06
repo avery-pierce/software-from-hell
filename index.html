@@ -3,39 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Software from Hell — a project. Burning in. Coming soon." />
     <title>Software from Hell</title>
     <style>
+      :root {
+        --bg: #0a0a0c;
+        --ink: #f3f4f6;
+        --dim: #9ca3af;
+        --accent: #ef4444;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #fdfcfa;
+          --ink: #18181b;
+          --dim: #52525b;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: #111827;
-        color: white;
+        font-family: ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
         display: grid;
         place-items: center;
         min-height: 100vh;
+        line-height: 1.6;
       }
       main {
-        max-width: 700px;
-        padding: 2rem;
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem;
         text-align: center;
       }
       h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
+        font-size: clamp(2.25rem, 8vw, 3.5rem);
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.02em;
       }
-      p {
-        color: #cbd5e1;
-        line-height: 1.6;
+      .tagline {
+        margin: 0 0 2rem;
+        color: var(--accent);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 0.8rem;
+      }
+      p.lede {
+        margin: 0 0 2rem;
+        color: var(--dim);
+        font-size: 1.1rem;
+      }
+      .status {
+        display: inline-block;
+        border: 1px solid var(--dim);
+        border-radius: 999px;
+        padding: 0.25rem 1rem;
+        color: var(--dim);
+        font-size: 0.85rem;
+      }
+      footer {
+        margin-top: 3rem;
+        color: var(--dim);
+        font-size: 0.8rem;
       }
     </style>
   </head>
   <body>
     <main>
       <h1>Software from Hell</h1>
-      <p>
-        This is a starter GitHub Pages site for the project. Replace this content
-        with your project description, links, screenshots, or app details.
+      <p class="tagline">Burning in</p>
+      <p class="lede">
+        Something is being built here. The content arrives when it does.
       </p>
+      <span class="status">coming soon</span>
+      <footer>softwarefromhell.com</footer>
     </main>
   </body>
 </html>
