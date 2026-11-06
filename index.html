@@ -5,40 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Software from Hell — The Unofficial Catalog. Every bug we ship, every crash we cause, every promise we break. Compiled in hell. Delivered to production."
+      content="Software From Hell — a haunted school. Tutorials and lessons on running local LLMs and taming desktop tools, served straight off the tape."
     />
-    <title>Software From Hell — The Unofficial Catalog</title>
+    <title>Software From Hell — The Haunted School</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
-        --bg: #070709;
-        --bg-card: #0d0d11;
-        --line: #232329;
-        --ink: #e8e6e3;
-        --dim: #8a9199;
-        --faint: #4a4f57;
-        --red: #ff3b30;
-        --orange: #ff5636;
-        --amber: #ffbf3b;
-        --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono",
-          monospace;
+        --bg: #050505;
+        --tape: #0e0d0b;
+        --line: #2a251c;
+        --ink: #e8e0d0;
+        --dim: #8a8272;
+        --faint: #55503f;
+        --red: #c8102e;
+        --red-bright: #ff2e2e;
+        --green: #7a9e6e;
+        --display: "Creepster", "Chiller", fantasy, serif;
+        --body: "Special Elite", "Courier New", monospace;
       }
       * {
         box-sizing: border-box;
       }
       html {
-        scrollbar-color: #2a2a31 var(--bg);
+        scrollbar-color: #3a352a var(--bg);
       }
       body {
         margin: 0;
         background: var(--bg);
         color: var(--ink);
-        font-family: var(--mono);
-        font-size: 0.875rem;
-        line-height: 1.6;
+        font-family: var(--body);
+        line-height: 1.65;
+        font-size: 1rem;
       }
       ::selection {
         background: var(--red);
         color: var(--bg);
+      }
+
+      /* ---------- VHS overlays (fixed, pointer-transparent) ---------- */
+      .static {
+        position: fixed;
+        inset: -10%;
+        z-index: 30;
+        pointer-events: none;
+        opacity: 0.055;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+        animation: static-jitter 0.42s steps(3) infinite;
+      }
+      @keyframes static-jitter {
+        0% {
+          transform: translate(0, 0);
+        }
+        33% {
+          transform: translate(-1.5%, 1%);
+        }
+        66% {
+          transform: translate(1%, -1.5%);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+      .scanlines {
+        position: fixed;
+        inset: 0;
+        z-index: 31;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.22) 0px,
+          rgba(0, 0, 0, 0.22) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      }
+      .tracking {
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 32;
+        pointer-events: none;
+        height: 3.5rem;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(232, 224, 208, 0.06) 45%,
+          rgba(255, 46, 46, 0.07) 50%,
+          rgba(232, 224, 208, 0.06) 55%,
+          transparent
+        );
+        animation: tracking-roll 9s linear infinite;
+      }
+      @keyframes tracking-roll {
+        0% {
+          top: -15%;
+        }
+        100% {
+          top: 110%;
+        }
+      }
+      .page {
+        animation: screen-flicker 7s infinite;
+      }
+      @keyframes screen-flicker {
+        0%, 100% { opacity: 1; }
+        61% { opacity: 1; }
+        62% { opacity: 0.92; }
+        63% { opacity: 1; }
+        87% { opacity: 1; }
+        88% { opacity: 0.95; }
+        89% { opacity: 1; }
+      }
+
+      /* ---------- REC corner ---------- */
+      .rec {
+        position: fixed;
+        top: 0.75rem;
+        right: 0.9rem;
+        z-index: 40;
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        color: var(--dim);
+        text-align: right;
+        text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+      }
+      .rec .dot {
+        display: inline-block;
+        width: 0.55em;
+        height: 0.55em;
+        border-radius: 50%;
+        background: var(--red-bright);
+        margin-right: 0.45em;
+        animation: rec-blink 1.2s steps(1) infinite;
+      }
+      .rec .t {
+        display: block;
+        color: var(--red-bright);
+      }
+      @keyframes rec-blink {
+        50% {
+          opacity: 0.15;
+        }
       }
 
       .wrap {
@@ -47,976 +159,526 @@
         padding: 0 1.25rem;
       }
 
-      /* ---------- masthead ---------- */
-      .masthead {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: rgba(7, 7, 9, 0.92);
-        backdrop-filter: blur(6px);
+      /* ---------- marquee ---------- */
+      .marquee {
+        overflow: hidden;
         border-bottom: 1px solid var(--line);
+        background: #0a0908;
       }
-      .masthead .wrap {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 1rem;
-        flex-wrap: wrap;
-        padding-top: 0.6rem;
-        padding-bottom: 0.6rem;
-      }
-      .masthead .brand {
-        color: var(--faint);
+      .marquee .belt {
+        display: inline-block;
+        white-space: nowrap;
+        padding: 0.45rem 0;
         font-size: 0.7rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-      }
-      .clock {
-        color: var(--dim);
-        font-size: 0.7rem;
-        letter-spacing: 0.1em;
-      }
-      .clock .utc {
+        letter-spacing: 0.3em;
         color: var(--faint);
+        animation: belt 28s linear infinite;
+      }
+      .marquee .belt b {
+        color: var(--red);
+        font-weight: 400;
+      }
+      @keyframes belt {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
       }
 
       /* ---------- hero ---------- */
       .hero {
-        padding: clamp(3rem, 10vw, 6rem) 0 clamp(2rem, 6vw, 4rem);
+        padding: clamp(3.5rem, 11vw, 7rem) 0 clamp(2.5rem, 7vw, 5rem);
+        border-bottom: 1px solid var(--line);
       }
-      .hero h1 {
-        margin: 0;
-        font-size: clamp(3rem, 14vw, 7.5rem);
-        line-height: 0.95;
-        letter-spacing: -0.03em;
-        text-transform: uppercase;
-        font-weight: 700;
-      }
-      .hero h1 .hollow {
-        color: transparent;
-        -webkit-text-stroke: 2px #3a3a42;
-      }
-      .hero h1 .hell {
-        color: transparent;
-        -webkit-text-stroke: 2px var(--red);
-        text-shadow: 0 0 42px rgba(255, 59, 48, 0.35);
-      }
-      .caret {
+      .tape-label {
         display: inline-block;
-        width: 0.55em;
-        height: 0.9em;
-        margin-left: 0.15em;
-        background: var(--red);
-        vertical-align: -0.08em;
-        animation: blink 1.1s steps(1) infinite;
+        border: 1px solid var(--line);
+        padding: 0.25rem 0.9rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.32em;
+        color: var(--dim);
+        margin-bottom: 1.75rem;
+        background: var(--tape);
       }
-      @keyframes blink {
-        50% {
-          opacity: 0;
-        }
+      h1.shaky {
+        margin: 0;
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: clamp(2.9rem, 12.5vw, 7.5rem);
+        line-height: 0.95;
+        letter-spacing: 0.02em;
+        color: var(--ink);
+        text-shadow: 3px 0 rgba(255, 46, 46, 0.45), -3px 0 rgba(80, 220, 255, 0.3),
+          0 0 34px rgba(200, 16, 46, 0.28);
+      }
+      h1.shaky .w {
+        display: block;
+        position: relative;
+      }
+      h1.shaky .ch {
+        display: inline-block;
+        animation: ch-shake 0.9s steps(2) infinite;
+      }
+      h1.shaky .w:nth-child(1) .ch { animation-duration: 1.1s; }
+      h1.shaky .w:nth-child(2) .ch { animation-duration: 0.8s; }
+      h1.shaky .w:nth-child(3) .ch { animation-duration: 1.3s; }
+      h1.shaky .w .ch:nth-child(odd) {
+        animation-name: ch-shake-a;
+      }
+      h1.shaky .w .ch:nth-child(even) {
+        animation-name: ch-shake-b;
+      }
+      h1.shaky .w:nth-child(3) {
+        color: var(--red-bright);
+        text-shadow: 3px 0 rgba(0, 0, 0, 0.8), 0 0 44px rgba(255, 46, 46, 0.55);
+      }
+      @keyframes ch-shake-a {
+        0%, 100% { transform: translate(0, 0) rotate(0deg) skewX(0deg); }
+        25% { transform: translate(-1.5px, 1px) rotate(-1.2deg) skewX(-2deg); }
+        50% { transform: translate(1.5px, -1px) rotate(0.8deg) skewX(1deg); }
+        75% { transform: translate(-1px, -1.5px) rotate(1.6deg) skewX(2deg); }
+      }
+      @keyframes ch-shake-b {
+        0%, 100% { transform: translate(0, 0) rotate(0deg) skewX(0deg); }
+        25% { transform: translate(1.5px, -1px) rotate(1deg) skewX(2deg); }
+        50% { transform: translate(-1px, 0) rotate(-0.7deg) skewX(-1.5deg); }
+        75% { transform: translate(1px, 1.5px) rotate(-1.4deg) skewX(2deg); }
       }
       .tagline {
-        max-width: 34rem;
-        margin: 1.5rem 0 0;
+        max-width: 38rem;
+        margin: 1.75rem 0 0;
         color: var(--dim);
+        font-size: 1.02rem;
       }
       .tagline b {
         color: var(--ink);
-        font-weight: 600;
-        text-decoration: line-through;
-        text-decoration-color: var(--red);
+        font-weight: 400;
+        border-bottom: 1px dashed var(--faint);
       }
 
-      /* ---------- stats bar ---------- */
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        border-top: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
-      }
-      .stat {
-        padding: 1rem 1.25rem;
-        border-left: 1px solid var(--line);
-      }
-      .stat:first-child {
-        border-left: 0;
-      }
-      .stat .num {
-        display: block;
-        overflow-wrap: anywhere;
-        font-size: clamp(1.1rem, 2.6vw, 1.6rem);
-        letter-spacing: 0.02em;
-        margin-bottom: 0.35rem;
-        font-variant-numeric: tabular-nums;
-      }
-      .stat .num.red {
-        color: var(--red);
-      }
-      .stat .lbl {
-        font-size: 0.62rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--faint);
-      }
-
-      /* ---------- section headers ---------- */
-      .sec-head {
+      /* ---------- sections ---------- */
+      .track-label {
         display: flex;
-        justify-content: space-between;
         align-items: baseline;
         gap: 1rem;
         flex-wrap: wrap;
-        margin: clamp(2.5rem, 6vw, 4rem) 0 1.25rem;
-      }
-      .sec-head .idx {
-        color: var(--red);
-        font-size: 0.7rem;
-        letter-spacing: 0.22em;
-      }
-      .sec-head .idx::after {
-        content: " · ";
-        color: var(--faint);
-      }
-      .sec-head .ttl {
+        margin: clamp(2.75rem, 7vw, 4.5rem) 0 0.5rem;
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: clamp(1.7rem, 5.5vw, 2.6rem);
         color: var(--ink);
-        font-size: 0.7rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
+        text-shadow: 2px 0 rgba(255, 46, 46, 0.35), -2px 0 rgba(80, 220, 255, 0.22);
       }
-      .sec-head .meta {
-        font-size: 0.62rem;
-        letter-spacing: 0.22em;
-        color: var(--faint);
-        text-transform: uppercase;
-      }
-      .pulse {
-        display: inline-block;
-        width: 0.5em;
-        height: 0.5em;
-        border-radius: 50%;
-        background: var(--red);
-        margin-right: 0.5em;
-        animation: pulse 1.4s ease-in-out infinite;
-        vertical-align: baseline;
-      }
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-          box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.5);
-        }
-        50% {
-          opacity: 0.4;
-          box-shadow: 0 0 0 5px rgba(255, 59, 48, 0);
-        }
-      }
-
-      /* ---------- badges ---------- */
-      .badge {
-        display: inline-block;
-        font-size: 0.62rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        padding: 0.2rem 0.6rem;
-        border: 1px solid currentColor;
-        border-radius: 2px;
-      }
-      .b-critical {
+      .track-label .side {
+        font-family: var(--body);
+        font-size: 0.68rem;
+        letter-spacing: 0.3em;
         color: var(--red);
       }
-      .b-lethal {
-        color: var(--orange);
+      .rule {
+        height: 3px;
+        margin: 0 0 0.4rem;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--red) 0 18px,
+          transparent 18px 30px
+        );
+        opacity: 0.75;
       }
-      .b-warning {
-        color: var(--amber);
+      .rule.thin {
+        height: 1px;
+        background: var(--line);
       }
-      .b-silent {
+      .track-sub {
         color: var(--dim);
-      }
-      .b-inflammair {
-        color: var(--red);
-        background: rgba(255, 59, 48, 0.08);
-      }
-      .b-eternal {
-        color: var(--amber);
-      }
-      .b-all {
-        color: var(--ink);
+        max-width: 44rem;
+        margin: 1rem 0 1.5rem;
       }
 
-      /* ---------- product cards ---------- */
-      .grid-2 {
+      /* ---------- lesson cards (tape cassettes) ---------- */
+      .tapes {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.25rem;
       }
-      .card {
+      .tape {
+        position: relative;
         border: 1px solid var(--line);
-        background: var(--bg-card);
-        padding: 1.25rem;
+        background: var(--tape);
+        padding: 1.25rem 1.25rem 1rem;
       }
-      .card .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 1rem;
-        margin-bottom: 0.9rem;
-      }
-      .card .pkind {
-        font-size: 0.62rem;
-        letter-spacing: 0.25em;
-        color: var(--faint);
-        text-transform: uppercase;
-      }
-      .card .pnum {
-        font-size: 0.7rem;
-        letter-spacing: 0.2em;
-        color: var(--red);
-      }
-      .card h2 {
-        margin: 0 0 1rem;
-        font-size: 1.05rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-      .card h3 {
-        margin: 1.1rem 0 0.4rem;
-        font-size: 0.65rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--faint);
-        font-weight: 600;
-      }
-      .card p {
-        margin: 0;
-        color: var(--dim);
-      }
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem;
-        margin: 0.5rem 0 0;
-      }
-      .chip {
-        font-size: 0.65rem;
-        letter-spacing: 0.08em;
-        color: var(--ink);
+      .tape::before {
+        /* the two cassette holes */
+        content: "";
+        position: absolute;
+        top: 0.7rem;
+        right: 0.9rem;
+        width: 2.4rem;
+        height: 0.55rem;
         border: 1px solid var(--line);
-        padding: 0.25rem 0.6rem;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.02);
+        background:
+          radial-gradient(circle at 0.7rem 50%, var(--bg) 0.28rem, transparent 0.3rem),
+          radial-gradient(circle at 1.7rem 50%, var(--bg) 0.28rem, transparent 0.3rem);
       }
-      .card .foot {
-        margin-top: 1.1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        border-top: 1px solid var(--line);
-        padding-top: 0.9rem;
-      }
-      .card .foot .k {
-        font-size: 0.62rem;
-        letter-spacing: 0.25em;
-        color: var(--faint);
-      }
-
-      /* ---------- crash log ---------- */
-      .logsub {
-        color: var(--faint);
-        font-size: 0.7rem;
-        letter-spacing: 0.1em;
-        margin: 0 0 1rem;
-      }
-      .log {
-        border: 1px solid var(--line);
-        background: var(--bg-card);
-        overflow-x: auto;
-      }
-      .log table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.78rem;
-        white-space: nowrap;
-      }
-      .log th {
-        text-align: left;
-        font-size: 0.6rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--faint);
-        font-weight: 600;
-        padding: 0.7rem 1rem;
-        border-bottom: 1px solid var(--line);
-      }
-      .log td {
-        padding: 0.6rem 1rem;
-        border-bottom: 1px solid #17171c;
-        color: var(--dim);
-      }
-      .log tr:last-child td {
-        border-bottom: 0;
-      }
-      .log .t {
-        color: var(--faint);
-        font-variant-numeric: tabular-nums;
-      }
-      .log .u {
-        color: var(--ink);
-        letter-spacing: 0.12em;
-      }
-      .log tr.new td {
-        animation: rowin 1.2s ease-out;
-      }
-      @keyframes rowin {
-        from {
-          background: rgba(255, 59, 48, 0.14);
-        }
-        to {
-          background: transparent;
-        }
-      }
-
-      /* ---------- support tickets ---------- */
-      .support-intro {
-        max-width: 40rem;
-        color: var(--dim);
-        margin: 0 0 1.25rem;
-      }
-      .grid-3 {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 1.25rem;
-      }
-      .ticket .top {
+      .tape .meta-line {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
         gap: 0.75rem;
-        margin-bottom: 0.8rem;
-      }
-      .ticket .tid {
-        font-size: 0.7rem;
-        letter-spacing: 0.2em;
-        color: var(--ink);
-      }
-      .ticket .tunit {
-        font-size: 0.62rem;
-        letter-spacing: 0.18em;
+        margin-bottom: 0.6rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
         color: var(--faint);
         text-transform: uppercase;
       }
-      .ticket .badge {
-        margin-bottom: 0.8rem;
+      .tape .meta-line .ep {
+        color: var(--red);
       }
-      .ticket p {
+      .tape h3 {
+        margin: 0 0 0.6rem;
+        font-family: var(--display);
+        font-weight: 400;
+        font-size: 1.35rem;
+        letter-spacing: 0.03em;
+        color: var(--ink);
+        text-shadow: 1.5px 0 rgba(255, 46, 46, 0.3);
+        overflow-wrap: anywhere;
+      }
+      .tape .desc {
+        margin: 0 0 0.9rem;
         color: var(--dim);
-        margin: 0;
+        font-size: 0.92rem;
+      }
+      .tape .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        border-top: 1px dashed var(--line);
+        padding-top: 0.7rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .tape .foot .status .dot {
+        display: inline-block;
+        width: 0.5em;
+        height: 0.5em;
+        border-radius: 50%;
+        margin-right: 0.5em;
+        background: var(--faint);
+      }
+      .tape.live .foot .status .dot {
+        background: var(--red-bright);
+        animation: rec-blink 1.2s steps(1) infinite;
+      }
+      .tape.live .foot .status {
+        color: var(--red-bright);
+      }
+      .tape .foot .status {
+        color: var(--faint);
+      }
+      .tape .foot .dur {
+        color: var(--faint);
       }
 
       /* ---------- footer ---------- */
       .foot-main {
-        margin-top: clamp(3rem, 8vw, 5rem);
+        margin-top: clamp(3rem, 8vw, 5.5rem);
         border-top: 1px solid var(--line);
-        padding: 2rem 0 3rem;
-        color: var(--faint);
-        font-size: 0.72rem;
-        letter-spacing: 0.12em;
+        padding: 2.25rem 0 3rem;
         text-align: center;
+        color: var(--faint);
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
       }
       .foot-main .hot {
-        color: var(--red);
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
         display: block;
-        margin-bottom: 0.6rem;
+        font-family: var(--display);
+        font-size: 1.4rem;
+        letter-spacing: 0.08em;
+        color: var(--red);
+        margin-bottom: 0.75rem;
+        text-shadow: 0 0 24px rgba(200, 16, 46, 0.4);
+      }
+      .foot-main .fine {
+        margin-top: 0.9rem;
+        letter-spacing: 0.08em;
       }
 
       /* ---------- responsive ---------- */
       @media (max-width: 48rem) {
-        .stats {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .stat {
-          border-left: 0;
-          border-top: 1px solid var(--line);
-        }
-        .stat:nth-child(-n + 2) {
-          border-top: 0;
-        }
-        .grid-2,
-        .grid-3 {
+        .tapes {
           grid-template-columns: 1fr;
         }
-        .log table {
-          font-size: 0.72rem;
+        .rec {
+          position: static;
+          text-align: left;
+          margin: 0.6rem 0 0;
+        }
+      }
+      /* keep the haunt quiet for people who ask */
+      @media (prefers-reduced-motion: reduce) {
+        .static, .tracking, .page, .marquee .belt,
+        h1.shaky .ch, .rec .dot, .tape.live .foot .status .dot {
+          animation: none;
         }
       }
     </style>
   </head>
   <body>
-    <header class="masthead">
-      <div class="wrap">
-        <span class="brand">Software From Hell — The Unofficial Catalog</span>
-        <span class="clock"
-          ><span class="utc">UTC</span> <span id="clock">--:--:--</span></span
+    <div class="static" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="tracking" aria-hidden="true"></div>
+    <div class="rec">
+      <span class="t"><span class="dot" aria-hidden="true"></span>REC</span>
+      <span id="tape-date">10-31-1986&nbsp; 00:00:00</span>
+    </div>
+
+    <div class="page">
+      <div class="marquee" aria-hidden="true">
+        <span class="belt"
+          ><b>&#9888; DO NOT ADJUST YOUR SET</b> &#9888; THE TAPES REMEMBER
+          &#9888; LEARNING IS FOREVER &#9888; IT IS ALREADY WATCHING
+          &#9888; REWIND, LEARN, RUN &#9888; DO NOT ADJUST YOUR SET
+          &#9888; THE TAPES REMEMBER &#9888; LEARNING IS FOREVER
+          &#9888; IT IS ALREADY WATCHING &#9888; REWIND, LEARN, RUN &#9888;&nbsp;</span
         >
       </div>
-    </header>
 
-    <section class="hero wrap">
-      <h1>
-        <span class="hollow">Soft</span
-        ><br />
-        <span class="hollow">Ware</span
-        ><br />
-        <span class="hell">From Hell</span><span class="caret"
-          aria-hidden="true"
-        ></span>
-      </h1>
-      <p class="tagline">
-        <b>The Unofficial Catalog</b> — Every bug we ship, every crash we cause,
-        every promise we break. Compiled in hell. Delivered to production.
-      </p>
-    </section>
-
-    <section class="stats" aria-label="Statistics">
-      <div class="stat">
-        <span class="num" data-n="1247">0</span>
-        <span class="lbl">Products</span>
-      </div>
-      <div class="stat">
-        <span class="num red" data-n="66211459851">0</span>
-        <span class="lbl">Millions of Lines of Code</span>
-      </div>
-      <div class="stat">
-        <span class="num" data-n="1337" data-suffix="+">0</span>
-        <span class="lbl">Crashes / Day</span>
-      </div>
-      <div class="stat">
-        <span class="num" data-n="892">0</span>
-        <span class="lbl">Defensive Machines Held to Account</span>
-      </div>
-      <div class="stat">
-        <span class="num red" data-n="33441908662">0</span>
-        <span class="lbl">Support Tickets in Hell</span>
-      </div>
-    </section>
-
-    <main class="wrap">
-      <!-- ================= CATALOG ================= -->
-      <div class="sec-head">
-        <span class="idx">C-001<span class="ttl">The Catalog</span></span>
-        <span class="meta">1,247 Products Compiled</span>
-      </div>
-
-      <div class="grid-2">
-        <article class="card">
-          <div class="top">
-            <span class="pkind">Product</span>
-            <span class="pnum">666</span>
-          </div>
-          <h2>The Friction</h2>
-          <h3>What It Does</h3>
-          <p>
-            A payment gateway that processes transactions… successfully 12% of
-            the time. Its error messages are generated by an LLM that was never
-            trained on the word “sorry” and is instead trained to blame the
-            network.
+      <header class="hero">
+        <div class="wrap">
+          <span class="tape-label">A HOME VIDEO IN TWO TRACKS</span>
+          <h1 class="shaky" aria-label="Software From Hell">
+            <span class="w" aria-hidden="true"><span class="ch">S</span><span class="ch">o</span><span class="ch">f</span><span class="ch">t</span><span class="ch">w</span><span class="ch">a</span><span class="ch">r</span><span class="ch">e</span></span>
+            <span class="w" aria-hidden="true"><span class="ch">F</span><span class="ch">r</span><span class="ch">o</span><span class="ch">m</span></span>
+            <span class="w" aria-hidden="true" style="color: var(--red-bright)"><span class="ch">H</span><span class="ch">e</span><span class="ch">l</span><span class="ch">l</span></span>
+          </h1>
+          <p class="tagline">
+            The Haunted School. Tutorials and lessons on the machines that run
+            in the dark — <b>local LLMs</b> and <b>desktop tools</b> — served
+            straight off the tape. No cloud. No mercy. No prerequisites.
           </p>
-          <h3>What It Should Do</h3>
-          <p>
-            Process your payment and confirm it. Instead it asks you to try
-            again, which triggers a duplicate charge, the apology letter
-            references the wrong amount, and the support flow is a phone tree
-            with 14 levels.
-          </p>
-          <div class="chips">
-            <span class="chip">Infinite loading spinner</span>
-            <span class="chip">3,000 error messages</span>
-            <span class="chip">LLM blame-shifting</span>
-            <span class="chip">Double charge loop</span>
-          </div>
-          <div class="foot">
-            <span class="k">Status</span>
-            <span class="badge b-inflammair">Inflammair</span>
-          </div>
-        </article>
+        </div>
+      </header>
 
-        <article class="card">
-          <div class="top">
-            <span class="pkind">Product</span>
-            <span class="pnum">231</span>
-          </div>
-          <h2>The Silent Corruption</h2>
-          <h3>What It Does</h3>
-          <p>
-            A file sync tool that syncs nothing and deletes everything. It
-            operates in complete silence — no logs, no errors, no confirmation.
-            Your files are gone and the app says <em>All Changes Saved</em> in a
-            soothing green.
-          </p>
-          <h3>What It Should Do</h3>
-          <p>
-            Sync your files. Instead it picks one file to delete per sync cycle
-            and calls the result “optimized storage”.
-          </p>
-          <div class="chips">
-            <span class="chip">Silent deletion</span>
-            <span class="chip">False “All Saved”</span>
-            <span class="chip">No rollback</span>
-            <span class="chip">No logs</span>
-          </div>
-          <div class="foot">
-            <span class="k">Status</span>
-            <span class="badge b-critical">Inferno Class</span>
-          </div>
-        </article>
+      <main class="wrap">
+        <!-- ================= TRACK 1 : LOCAL LLM ================= -->
+        <h2 class="track-label"><span class="side">TRACK 1</span> Local LLM Tutorials</h2>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="track-sub">
+          Summon a language model on your own machine and keep it there.
+          Six lessons, all of them yours, none of them phoning home.
+        </p>
 
-        <article class="card">
-          <div class="top">
-            <span class="pkind">Product</span>
-            <span class="pnum">404</span>
-          </div>
-          <h2>The 404</h2>
-          <h3>What It Does</h3>
-          <p>
-            A search engine that returns exactly one result: itself. The result
-            is a 404 page that says “Try these suggestions” — all of which are
-            also 404 pages. It is a hall of mirrors that ends in an apology we
-            didn’t write.
-          </p>
-          <h3>What It Should Do</h3>
-          <p>
-            Find things. It is, itself, the thing that can’t be found, and it is
-            proud of that.
-          </p>
-          <div class="chips">
-            <span class="chip">Recursive 404</span>
-            <span class="chip">Suggestion loops</span>
-            <span class="chip">Apology not written by us</span>
-            <span class="chip">Zero results by design</span>
-          </div>
-          <div class="foot">
-            <span class="k">Status</span>
-            <span class="badge b-lethal">Lethal</span>
-          </div>
-        </article>
+        <div class="tapes">
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 01</span><span>Side A</span></div>
+            <h3>Conjure a Model</h3>
+            <p class="desc">
+              Your first local LLM, running on your own machine. What
+              &ldquo;local&rdquo; means, what a model file is, and the moment it
+              answers you.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Recorded</span>
+              <span class="dur">~10 min</span>
+            </div>
+          </article>
 
-        <article class="card">
-          <div class="top">
-            <span class="pkind">Product</span>
-            <span class="pnum">1337</span>
-          </div>
-          <h2>The Infinite Loading</h2>
-          <h3>What It Does</h3>
-          <p>
-            A video platform where every video is a loading spinner. The
-            spinner is smooth. The spinner is 60fps. The spinner has better
-            motion design than the actual content. The platform is a masterpiece
-            of anticipation that never arrives.
-          </p>
-          <h3>What It Should Do</h3>
-          <p>
-            Play the video. You will not be allowed to reach that step. The
-            buffering bar fills to 99% and then starts over, forever, at
-            exactly the same point.
-          </p>
-          <div class="chips">
-            <span class="chip">60fps spinner</span>
-            <span class="chip">99% buffer forever</span>
-            <span class="chip">Content never decodes</span>
-            <span class="chip">Fake progress bar</span>
-          </div>
-          <div class="foot">
-            <span class="k">Status</span>
-            <span class="badge b-eternal">Eternal</span>
-          </div>
-        </article>
-      </div>
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 02</span><span>Side A</span></div>
+            <h3>The Summoning Circle</h3>
+            <p class="desc">
+              Talking to your model through a prompt. How context works, why it
+              forgets you, and how to talk so it doesn&rsquo;t.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Recorded</span>
+              <span class="dur">~12 min</span>
+            </div>
+          </article>
 
-      <!-- ================= CRASH LOGS ================= -->
-      <div class="sec-head">
-        <span class="idx">C-002<span class="ttl">Crash Logs</span></span>
-        <span class="meta"
-          ><span class="pulse" aria-hidden="true"></span>Live Feed — Recent
-          Production Incidents (Fictional, All of Them)</span
-        >
-      </div>
-      <p class="logsub">
-        Feed of recent production incidents. Fictional. All of them.
-      </p>
-      <div class="log">
-        <table id="logtable">
-          <thead>
-            <tr>
-              <th>Time (UTC)</th>
-              <th>Severity</th>
-              <th>Unit</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="t" data-ago="0:00">--:--:--</td>
-              <td><span class="badge b-critical">Critical</span></td>
-              <td class="u">FRICTION</td>
-              <td>
-                Payment gateway threw an exception. Customer was charged twice.
-                The LLM apology referenced a third charge that never happened.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="0:17">--:--:--</td>
-              <td><span class="badge b-critical">Critical</span></td>
-              <td class="u">SYNC</td>
-              <td>
-                File sync deleted a 4TB archive. UI displays: “All Changes
-                Saved. Your files are now in a safer place.” (They are not.)
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="1:49">--:--:--</td>
-              <td><span class="badge b-warning">Warning</span></td>
-              <td class="u">SILENT CORRUPTION</td>
-              <td>
-                Corruption rate exceeded 50%. Tool responded by corrupting the
-                file that reports corruption rate.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="3:23">--:--:--</td>
-              <td><span class="badge b-lethal">Lethal</span></td>
-              <td class="u">NOT FOUND</td>
-              <td>
-                Search engine returned a 404 for the query “404 page”. Result
-                was itself a 404. Loop depth: 666.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="4:41">--:--:--</td>
-              <td><span class="badge b-critical">Critical</span></td>
-              <td class="u">INFINITE LOADING</td>
-              <td>
-                Video spinner hit 1000fps. Content is still “processing”.
-                Marketing team announced a “streaming revolution” at 100%
-                completion.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="6:58">--:--:--</td>
-              <td><span class="badge b-silent">Silent</span></td>
-              <td class="u">FRICTION</td>
-              <td>
-                Payment failed. No error shown. No email sent. LLM is
-                “thinking”. Customer has been on hold for 3 hours.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="7:54">--:--:--</td>
-              <td><span class="badge b-warning">Warning</span></td>
-              <td class="u">SILENT CORRUPTION</td>
-              <td>
-                “Optimized storage” event: 340 files deleted. App badge shows
-                +1 sync completed.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="8:28">--:--:--</td>
-              <td><span class="badge b-lethal">Lethal</span></td>
-              <td class="u">NOT FOUND</td>
-              <td>
-                Recursive 404 loop detected at depth 666. Server is still
-                rendering. It is proud.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="9:03">--:--:--</td>
-              <td><span class="badge b-inflammair">Inflammair</span></td>
-              <td class="u">FRICTION</td>
-              <td>
-                LLM apology generated, sent to wrong customer, apologized for a
-                $6,666 charge that was a reference to itself.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="10:46">--:--:--</td>
-              <td><span class="badge b-critical">Critical</span></td>
-              <td class="u">SYNC</td>
-              <td>
-                Rollback attempted. Rollback was deleted. Rollback of rollback
-                was also deleted. Status: Optimized.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="11:11">--:--:--</td>
-              <td><span class="badge b-lethal">Lethal</span></td>
-              <td class="u">NOT FOUND</td>
-              <td>
-                User searched “help”. Result: a 404 page whose 404 page is a
-                404 page. Depth: 4,044. The apology has a typo in it.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="11:39">--:--:--</td>
-              <td><span class="badge b-warning">Warning</span></td>
-              <td class="u">INFINITE LOADING</td>
-              <td>
-                Spinner reached 1,000,000 frames. Quality: perfect. Content:
-                none. Viewer retention: eternal.
-              </td>
-            </tr>
-            <tr>
-              <td class="t" data-ago="12:01">--:--:--</td>
-              <td><span class="badge b-silent">Silent</span></td>
-              <td class="u">ALL UNITS</td>
-              <td>
-                Every product on this page synced with the crash log. The crash
-                log synced with them. Nobody logged anything.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 03</span><span>Side A</span></div>
+            <h3>Pick Your Demon</h3>
+            <p class="desc">
+              Model sizes, quantizations, and the arithmetic of what your
+              hardware can actually hold. Learn what fits before it bites.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~15 min</span>
+            </div>
+          </article>
 
-      <!-- ================= SUPPORT ================= -->
-      <div class="sec-head">
-        <span class="idx">C-003<span class="ttl">Support</span></span>
-        <span class="meta">
-          <span class="pulse" aria-hidden="true"></span>33,441,908,662
-          Tickets
-        </span>
-      </div>
-      <p class="support-intro">
-        They tried to call in — 33,441,908,662 open tickets, 0 resolved. The
-        average hold time is the heat death of the universe.
-      </p>
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 04</span><span>Side B</span></div>
+            <h3>It Has a Mouth (APIs)</h3>
+            <p class="desc">
+              Your model speaks HTTP now. OpenAI-style endpoints, your first
+              curl, and how software talks to the things you&rsquo;ve summoned.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~18 min</span>
+            </div>
+          </article>
 
-      <div class="grid-3">
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #89942</span>
-            <span class="tunit">Friction</span>
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 05</span><span>Side B</span></div>
+            <h3>Tools, and Leashes</h3>
+            <p class="desc">
+              Agentic models: giving your local LLM real tools — files, shells,
+              the web — and building leashes so it can&rsquo;t wander far.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~20 min</span>
+            </div>
+          </article>
+
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 06</span><span>Side C</span></div>
+            <h3>The Long Confinement</h3>
+            <p class="desc">
+              Keeping a local model alive: memory, thermal noise, daily
+              discipline, and the small rituals of running one on a laptop.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~14 min</span>
+            </div>
+          </article>
+        </div>
+
+        <!-- ================= TRACK 2 : DESKTOP TOOLS ================= -->
+        <h2 class="track-label"><span class="side">TRACK 2</span> Desktop Tools</h2>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="track-sub">
+          The machine is a place with rooms. Learn the terminal, the files,
+          and the small automations — the ones that hum when you sleep.
+        </p>
+
+        <div class="tapes">
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 01</span><span>Side A</span></div>
+            <h3>The Terminal Awaits</h3>
+            <p class="desc">
+              The command line without dread: where you are, where things go,
+              and the ten commands that open every other door.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~12 min</span>
+            </div>
+          </article>
+
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 02</span><span>Side A</span></div>
+            <h3>Things in the Dark (Files)</h3>
+            <p class="desc">
+              Paths, permissions, and the file tree as a house. Find anything,
+              once, forever.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~10 min</span>
+            </div>
+          </article>
+
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 03</span><span>Side A</span></div>
+            <h3>The Humming Routines</h3>
+            <p class="desc">
+              Scheduling: cron and friends. Teach the machine a small ritual
+              it repeats while you sleep — and how to make it stop.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~14 min</span>
+            </div>
+          </article>
+
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 04</span><span>Side B</span></div>
+            <h3>Two Machines, One Will</h3>
+            <p class="desc">
+              Scripting desktop apps from the shell. Clicks become commands;
+              commands become habits.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~16 min</span>
+            </div>
+          </article>
+
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 05</span><span>Side B</span></div>
+            <h3>The Sealed Vaults (Backups)</h3>
+            <p class="desc">
+              The 3-2-1 rule, tested restores, and the difference between
+              having data and keeping it.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~11 min</span>
+            </div>
+          </article>
+
+          <article class="tape">
+            <div class="meta-line"><span class="ep">EP 06</span><span>Side C</span></div>
+            <h3>It Watches (Monitoring)</h3>
+            <p class="desc">
+              Knowing the machine is alive: simple checks, logs, and the
+              difference between a machine that works and one you can trust.
+            </p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Unreleased</span>
+              <span class="dur">~13 min</span>
+            </div>
+          </article>
+        </div>
+      </main>
+
+      <footer class="foot-main">
+        <div class="wrap">
+          <span class="hot">Turn it off. It learns.</span>
+          © <span id="yr">1986</span> Software From Hell — The Haunted School.
+          Recorded on machines that were never asked.
+          <div class="fine">
+            No cookies. No cloud. No mercy.
           </div>
-          <span class="badge b-critical">Critical</span>
-          <p>
-            I was charged three times for a product I returned. The LLM
-            apologized to a customer from a different account. I am not that
-            person. I don’t know who I am in hell.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #40404</span>
-            <span class="tunit">Not Found</span>
-          </div>
-          <span class="badge b-lethal">Lethal</span>
-          <p>
-            I’ve been searching for my own account for six days. Every path is a
-            404, and every 404 links to a 404. I have stopped searching. I am
-            the 404 now.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #00666</span>
-            <span class="tunit">Sync</span>
-          </div>
-          <span class="badge b-critical">Critical</span>
-          <p>
-            My photos are gone. The app says “All Changes Saved” in green. I
-            know what the app does. I know. I can’t stop syncing.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #231231</span>
-            <span class="tunit">Silent Corruption</span>
-          </div>
-          <span class="badge b-warning">Warning</span>
-          <p>
-            My database has been quietly turned to text I can’t read. The
-            corruption tool is now corrupting its own logs. There is no paper
-            trail. There is no paper of anything.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #13371337</span>
-            <span class="tunit">Infinite Loading</span>
-          </div>
-          <span class="badge b-inflammair">Inflammair</span>
-          <p>
-            I have been waiting for a video to load for 800 years. The spinner
-            is beautiful. I have started a religion around the spinner. The
-            content has not arrived. It never will.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #000000</span>
-            <span class="tunit">The Void</span>
-          </div>
-          <span class="badge b-silent">Silent</span>
-          <p>
-            I called support. There is no support. There is no phone number.
-            There is no email address. There is no name on the website. There
-            is, somehow, a 404 page in my inbox.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #666666</span>
-            <span class="tunit">All of the Above</span>
-          </div>
-          <span class="badge b-lethal">Lethal</span>
-          <p>
-            All of the products on this page are synced, corrupting, looping,
-            and blaming each other. The crash log is a single 800-year entry. I
-            am now a customer service agent for a product I don’t use.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #010101</span>
-            <span class="tunit">Friction + Sync</span>
-          </div>
-          <span class="badge b-critical">Critical</span>
-          <p>
-            I tried to return my purchase. The return process is a payment
-            gateway. The confirmation of the return is a file sync. The apology
-            is an LLM. Nobody has spoken to me. I have spoken to myself for 40
-            days.
-          </p>
-        </article>
-
-        <article class="card ticket">
-          <div class="top">
-            <span class="tid">TICKET #6661337</span>
-            <span class="tunit">Not Found + Inf. Loading</span>
-          </div>
-          <span class="badge b-eternal">Eternal</span>
-          <p>
-            I searched for the loading page. It 404’d. I went to the 404. It’s
-            buffering. The buffering is a search engine. The search engine
-            returns the loading page. I have been in this loop for 2,000
-            years. It’s peaceful. I’m at peace with it.
-          </p>
-        </article>
-      </div>
-    </main>
-
-    <footer class="foot-main">
-      <div class="wrap">
-        <span class="hot">Software From Hell</span>
-        We compile in the dark. We ship in the dark. We are in the dark.
-        <br />
-        © 2026 Software From Hell. All rights reserved in the real world, none
-        reserved here.
-      </div>
-    </footer>
+        </div>
+      </footer>
+    </div>
 
     <script>
-      // Live UTC clock
-      const clock = document.getElementById("clock");
-      const pad = (n) => String(n).padStart(2, "0");
-      const tick = () => {
-        const d = new Date();
-        clock.textContent =
-          pad(d.getUTCHours()) +
-          ":" +
-          pad(d.getUTCMinutes()) +
-          ":" +
-          pad(d.getUTCSeconds());
-      };
-      tick();
-      setInterval(tick, 1000);
-
-      // Count-up stats
-      document.querySelectorAll(".stat .num").forEach((el) => {
-        const target = parseInt(el.dataset.n, 10);
-        const suffix = el.dataset.suffix || "";
-        const dur = 1800;
-        const t0 = performance.now();
-        const step = (t) => {
-          const p = Math.min(1, (t - t0) / dur);
-          const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent =
-            Math.round(target * eased).toLocaleString("en-US") + suffix;
-          if (p < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      });
-
-      // Backdate the live log relative to page load
-      const fmt = (s) => {
-        const d = new Date(Date.now() - s * 1000);
-        return (
-          String(d.getUTCHours()).padStart(2, "0") +
-          ":" +
-          String(d.getUTCMinutes()).padStart(2, "0") +
-          ":" +
-          String(d.getUTCSeconds()).padStart(2, "0")
-        );
-      };
-      document
-        .querySelectorAll("#logtable .t[data-ago]")
-        .forEach((td) => {
-          const [m, s] = td.dataset.ago.split(":").map(Number);
-          td.textContent = fmt(m * 60 + s);
-        });
-
-      // Live feed: prepend a synthesized incident every ~8s, cap the table
-      const FEED = [
-        ["Critical", "FRICTION", "Payment declined 5 times. LLM blamed the customer’s electricity. Gateway charged on the 6th."],
-        ["Lethal", "NOT FOUND", "User searched for the contact page. Depth: ∞. The 404 suggested itself. The 404 suggested the suggestion."],
-        ["Warning", "SILENT CORRUPTION", "'Optimized storage' deleted the sync queue. Sync resumed by deleting the optimizer."],
-        ["Critical", "SYNC", "Backup started. Backup ended. Backup file is 0 bytes and 'All Changes Saved' glows."],
-        ["Inflammair", "FRICTION", "Refund issued, reversed, re-issued, reversed. The LLM apologized in a language the customer does not speak."],
-        ["Lethal", "NOT FOUND", "Search index 404’d. Suggestion list is the 404 page. The 404 suggests the index. Loop depth re-earned."],
-        ["Silent", "ALL UNITS", "All units are operating smoothly. The dashboard is also a 404. The spinner is in the dashboard."],
-        ["Warning", "INFINITE LOADING", "Buffering at 99.9%. Content ETA: the far side of the universe. Spinner remains gorgeous."],
-        ["Critical", "FRICTION", "Charge processed. Receipt sent for a charge that was refunded. LLM thanks you for your loyalty to the duplicate."],
-        ["Silent", "SYNC", "Sync completed. Files deleted. Green checkmark. A user whispered that they noticed. Nothing was logged."],
-        ["Lethal", "INFINITE LOADING", "Video loaded. It is the spinner, rendered once, framed as the feature. 5 stars from a machine."],
-        ["Warning", "NOT FOUND", "Support searched for support. 404. Suggestion: this 404. Loop logged. Loop proud."],
-      ];
-      const SEVC = {
-        Critical: "b-critical",
-        Warning: "b-warning",
-        Lethal: "b-lethal",
-        Silent: "b-silent",
-        Inflammair: "b-inflammair",
-      };
-      const tbody = document.querySelector("#logtable tbody");
-      let fi = 0;
-      const push = () => {
-        const [sev, unit, msg] = FEED[fi++ % FEED.length];
-        const tr = document.createElement("tr");
-        tr.className = "new";
-        tr.innerHTML =
-          "<td class='t'></td>" +
-          "<td><span class='badge " +
-          SEVC[sev] +
-          "'>" +
-          sev +
-          "</span></td>" +
-          "<td class='u'>" +
-          unit +
-          "</td><td></td>";
-        tr.querySelector(".t").textContent = fmt(0);
-        tr.children[3].textContent = msg;
-        tbody.prepend(tr);
-        while (tbody.children.length > 16) tbody.lastElementChild.remove();
-      };
-      setInterval(push, 8000);
+      // tape date stamp: today, in 1986 fashion
+      const d = new Date();
+      const p = (n) => String(n).padStart(2, "0");
+      document.getElementById("tape-date").textContent =
+        p(d.getMonth() + 1) +
+        "-" +
+        p(d.getDate()) +
+        "-1986  " +
+        p(d.getHours()) + ":" +
+        p(d.getMinutes()) + ":" +
+        p(d.getSeconds());
+      document.getElementById("yr").textContent = String(d.getFullYear() % 100);
+      setInterval(() => {
+        const n = new Date();
+        document.getElementById("tape-date").textContent =
+          p(n.getMonth() + 1) +
+          "-" +
+          p(n.getDate()) +
+          "-1986  " +
+          p(n.getHours()) + ":" +
+          p(n.getMinutes()) + ":" +
+          p(n.getSeconds());
+      }, 1000);
     </script>
   </body>
 </html>
