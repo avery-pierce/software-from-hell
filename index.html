@@ -627,7 +627,7 @@
         p(d.getHours()) + ":" +
         p(d.getMinutes()) + ":" +
         p(d.getSeconds());
-      document.getElementById("yr").textContent = String(d.getFullYear() % 100);
+      document.getElementById("yr").textContent = String(d.getFullYear());
       setInterval(() => {
         const n = new Date();
         document.getElementById("tape-date").textContent =
