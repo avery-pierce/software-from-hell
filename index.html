@@ -97,69 +97,10 @@
         89% { opacity: 1; }
       }
 
-      /* ---------- REC corner ---------- */
-      .rec {
-        position: fixed;
-        top: 0.75rem;
-        right: 0.9rem;
-        z-index: 40;
-        font-size: 0.7rem;
-        letter-spacing: 0.18em;
-        color: var(--dim);
-        text-align: right;
-        text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
-      }
-      .rec .dot {
-        display: inline-block;
-        width: 0.55em;
-        height: 0.55em;
-        border-radius: 50%;
-        background: var(--red-bright);
-        margin-right: 0.45em;
-        animation: rec-blink 1.2s steps(1) infinite;
-      }
-      .rec .t {
-        display: block;
-        color: var(--red-bright);
-      }
-      @keyframes rec-blink {
-        50% {
-          opacity: 0.15;
-        }
-      }
-
       .wrap {
         max-width: 68rem;
         margin: 0 auto;
         padding: 0 1.25rem;
-      }
-
-      /* ---------- marquee ---------- */
-      .marquee {
-        overflow: hidden;
-        border-bottom: 1px solid var(--line);
-        background: #0a0908;
-      }
-      .marquee .belt {
-        display: inline-block;
-        white-space: nowrap;
-        padding: 0.45rem 0;
-        font-size: 0.7rem;
-        letter-spacing: 0.3em;
-        color: var(--faint);
-        animation: belt 28s linear infinite;
-      }
-      .marquee .belt b {
-        color: var(--red);
-        font-weight: 400;
-      }
-      @keyframes belt {
-        from {
-          transform: translateX(0);
-        }
-        to {
-          transform: translateX(-50%);
-        }
       }
 
       /* ---------- hero ---------- */
@@ -383,8 +324,8 @@
       }
       /* keep the haunt quiet for people who ask */
       @media (prefers-reduced-motion: reduce) {
-        .static, .page, .marquee .belt,
-        h1.shaky .ch, .rec .dot, .tape.live .foot .status .dot {
+        .static, .page,
+        h1.shaky .ch, .tape.live .foot .status .dot {
           animation: none;
         }
       }
@@ -393,20 +334,7 @@
   <body>
     <div class="static" aria-hidden="true"></div>
     <div class="scanlines" aria-hidden="true"></div>
-        <div class="rec">
-      <span class="t"><span class="dot" aria-hidden="true"></span>LIVE</span>
-      <span id="tape-date">10-31-1986&nbsp; 00:00:00</span>
-    </div>
-
-    <div class="page">
-      <div class="marquee" aria-hidden="true">
-        <span class="belt"
-          ><b>&#9888; LESSONS, IN THE DARK</b> &#9888; NO CLOUD REQUIRED
-          &#9888; LESSONS YOU CAN FOLLOW ALONG &#9888; LOCAL MODELS, LOCAL LEARNING
-          &#9888; NO PREREQUISITES &#9888; LESSONS, IN THE DARK
-          &#9888; NO CLOUD REQUIRED &#9888; LESSONS YOU CAN FOLLOW ALONG &#9888;&nbsp;</span
-        >
-      </div>
+        <div class="page">
 
       <header class="hero">
         <div class="wrap">
@@ -616,29 +544,8 @@
     </div>
 
     <script>
-      // date stamp: today, in 1986 fashion
       const d = new Date();
       const p = (n) => String(n).padStart(2, "0");
-      document.getElementById("tape-date").textContent =
-        p(d.getMonth() + 1) +
-        "-" +
-        p(d.getDate()) +
-        "-1986  " +
-        p(d.getHours()) + ":" +
-        p(d.getMinutes()) + ":" +
-        p(d.getSeconds());
-      document.getElementById("yr").textContent = String(d.getFullYear());
-      setInterval(() => {
-        const n = new Date();
-        document.getElementById("tape-date").textContent =
-          p(n.getMonth() + 1) +
-          "-" +
-          p(n.getDate()) +
-          "-1986  " +
-          p(n.getHours()) + ":" +
-          p(n.getMinutes()) + ":" +
-          p(n.getSeconds());
-      }, 1000);
     </script>
   </body>
 </html>
