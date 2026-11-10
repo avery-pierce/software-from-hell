@@ -72,6 +72,13 @@
         height: auto;
         max-width: 40rem;
         margin: 0 auto;
+        animation: quiver 0.9s steps(2) infinite;
+      }
+      @keyframes quiver {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(-1.5px, 1px) rotate(-0.4deg); }
+        50% { transform: translate(1.5px, -1px) rotate(0.3deg); }
+        75% { transform: translate(-1px, -1.5px) rotate(0.5deg); }
       }
       .tagline {
         max-width: 38rem;
@@ -210,6 +217,11 @@
       @media (max-width: 48rem) {
         .tapes {
           grid-template-columns: 1fr;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-art {
+          animation: none;
         }
       }
     </style>
