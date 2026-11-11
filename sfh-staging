@@ -1,0 +1,220 @@
+#!/usr/bin/env bash
+# sfh-staging — the staging face for software-from-hell.
+#
+# Serves the staging WORKTREE (this repo's working tree) on its own port
+# (127.0.0.1:8666) and mounts /sfh-staging on the box's tailnet HTTPS
+# origin, so the owner can view it from anywhere WITHOUT pushing to main
+# (main deploys softwarefromhell.com; this path is the rehearsal room).
+#
+#   sfh-staging on       start the server + apply the tailnet path (idempotent)
+#   sfh-staging off      kill by the live port owner + unmount the path
+#   sfh-staging status   the ledger: port, pid, loopback + tailnet probes
+#   (no args)            status
+#
+# Keys by PORT, never by pidfile (the flag-13 lesson). The tailnet path is
+# ALSO in the canonical serve map (~/projects/cockpit/serve-map.json), so a
+# `cockpit on` re-apply KEEPS this face instead of wiping it; this script
+# is what applies it outside the cockpit lifecycle.
+
+set -euo pipefail
+
+# Resolve symlinks ($0 from ~/bin is a link into the worktree; the real
+# script path IS the worktree anchor).
+SRC="${BASH_SOURCE[0]}"
+while [ -h "$SRC" ]; do
+  SRC="$(cd "$(dirname "$SRC")" && eval echo "$(readlink "$SRC")")"
+done
+DIR="$(cd "$(dirname "$SRC")" && pwd)"
+
+PORT="${SFH_STAGING_PORT:-8666}"
+PATHNAME="/sfh-staging"
+ORIGIN="https://rosey-the-robot.tail5f288c.ts.net"
+SERVE_MAP="${SFH_STAGING_MAP:-$HOME/projects/cockpit/serve-map.json}"   # the cockpit OWNS this file; we only read it
+RUNDIR="$HOME/.run/sfh-staging"
+LOG="$RUNDIR/server.log"
+PIDFILE="$RUNDIR/server.pid"
+mkdir -p "$RUNDIR"
+
+listener_pid() {   # the live owner of the port (empty when dark)
+  lsof -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null | head -1 || true
+}
+
+tailnet_path() {
+  SERVE_PATHNAME="$PATHNAME" python3 -c '
+import json, os, sys
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    sys.exit(1)
+for host, web in d.get("Web", {}).items():
+    if os.environ.get("SERVE_PATHNAME") in web.get("Handlers", {}):
+        print(host + os.environ.get("SERVE_PATHNAME"))
+        break
+' <<<"$(tailscale serve status --json 2>/dev/null)" || true
+}
+
+# The map's "path target" lines, one per line (empty when the map is missing).
+map_lines() {
+  # $1 = a path to EXCLUDE (used by off: the map re-applied minus our face)
+  SERVE_MAP_FILE="$SERVE_MAP" SFH_EXCLUDE="${1:-}" python3 -c '
+import json, os, sys
+try:
+    m = json.load(open(os.environ["SERVE_MAP_FILE"]))
+except Exception:
+    sys.exit(0)
+ex = os.environ.get("SFH_EXCLUDE", "")
+for host, web in m.get("Web", {}).items():
+    for path, h in web.get("Handlers", {}).items():
+        if ex and path == ex:
+            continue
+        if h.get("Proxy"):
+            print(path + " " + h["Proxy"])
+' 2>/dev/null || true
+}
+
+in_map() {
+  SERVE_MAP_FILE="$SERVE_MAP" SERVE_PATHNAME="$PATHNAME" python3 -c '
+import json, os, sys
+try:
+    m = json.load(open(os.environ["SERVE_MAP_FILE"]))
+except Exception:
+    sys.exit(1)
+sys.exit(0 if any(os.environ.get("SERVE_PATHNAME") in w.get("Handlers", {}) for w in m.get("Web", {}).values()) else 1)
+' 2>/dev/null
+}
+
+# The cockpit-safe sequence: reset the 443 config, re-apply the WHOLE
+# canonical map, re-set the webui. (A bare --set-path races the live
+# config with "listener already exists".)
+apply_serve_map() {
+  # $1 = a path to exclude from the re-apply (empty = the whole map)
+  tailscale serve --https=443 off >/dev/null 2>&1 || true   # idempotent
+  local line path target
+  while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    path="${line%% *}"; target="${line#* }"
+    [ -z "$target" ] && continue
+    tailscale serve --bg --https=443 --set-path="$path" "$target" >/dev/null 2>&1 || {
+      echo "  warning: $path re-apply failed" >&2
+    }
+  done <<<"$(map_lines "${1:-}")"
+  tailscale serve --bg --https=443 --set-webui >/dev/null 2>&1 || true
+}
+
+loopback_ok() {
+  [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 3 "http://127.0.0.1:$PORT/" 2>/dev/null)" = "200" ]
+}
+
+cmd_status() {
+  local pid; pid="$(listener_pid)"
+  if [ -z "$pid" ]; then
+    echo "sfh-staging: DARK (port $PORT)"
+    [ -n "$(tailnet_path)" ] && echo "  warning: the tailnet path is still mounted at $(tailnet_path)"
+    [ -f "$PIDFILE" ] && echo "  warning: stale pidfile $PIDFILE (the port is the truth)"
+    rm -f "$PIDFILE"
+    [ -n "$(tailnet_path)" ] && return 1 || return 0
+  fi
+  echo "sfh-staging: UP on $PORT (pid $pid)"
+  if [ -f "$PIDFILE" ] && [ "$(cat "$PIDFILE")" != "$pid" ]; then
+    echo "  warning: pidfile drifted (live owner is $pid)"
+  fi
+  if loopback_ok; then
+    echo "  loopback http://127.0.0.1:$PORT/        OK"
+  else
+    echo "  loopback http://127.0.0.1:$PORT/        FAIL (listening, no 200)"
+  fi
+  if [ -n "$(tailnet_path)" ]; then
+    local code; code="$(curl -sk -o /dev/null -w '%{http_code}' --max-time 5 "$ORIGIN$PATHNAME/" 2>/dev/null)"
+    echo "  tailnet $ORIGIN$PATHNAME/             ${code:-no-response}"
+  else
+    echo "  tailnet $ORIGIN$PATHNAME/             NOT MOUNTED"
+  fi
+  [ -z "$(tailnet_path)" ] || [ "$(curl -sk -o /dev/null -w '%{http_code}' --max-time 5 "$ORIGIN$PATHNAME/")" != "200" ] && return 1 || return 0
+}
+
+cmd_on() {
+  local pid; pid="$(listener_pid)"
+  if [ -n "$pid" ]; then
+    echo "server already UP on $PORT (pid $pid)"
+  else
+    echo "starting the staging server on $PORT (serving $DIR)…"
+    cd "$DIR"
+    nohup python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$DIR" >>"$LOG" 2>&1 &
+    local started=$!
+    echo "$started" > "$PIDFILE"   # snapshot of a nohup'd child — the live port is the truth
+    local i
+    for i in $(seq 1 15); do
+      pid="$(listener_pid)"
+      [ -n "$pid" ] && break
+      if ! kill -0 "$started" 2>/dev/null; then
+        break
+      fi
+      sleep 1
+    done
+    if [ -z "$(listener_pid)" ]; then
+      echo "FAIL: the port never lit (last log lines):" >&2
+      tail -5 "$LOG" >&2 || true
+      return 1
+    fi
+    echo "server UP: $DIR on $PORT"
+  fi
+  if [ -z "$(tailnet_path)" ]; then
+    if in_map; then
+      echo "mounting the tailnet face (resetting 443 config, re-applying the map with $PATHNAME)…"
+      apply_serve_map
+    else
+      echo "  $PATHNAME is NOT in the canonical map ($SERVE_MAP) — mounting live-only" >&2
+      if ! tailscale serve --bg --https=443 --set-path="$PATHNAME" "http://127.0.0.1:$PORT" 2>&1; then
+        echo "FAIL: the tailnet path did not take (the loopback server is up; check tailscaled)" >&2
+        return 1
+      fi
+    fi
+    echo "tailnet path mounted: $ORIGIN$PATHNAME/"
+  fi
+  if [ "$(curl -sk -o /dev/null -w '%{http_code}' --max-time 5 "$ORIGIN$PATHNAME/" 2>/dev/null)" = "200" ]; then
+    echo "LIVE — the tailnet URL answers"
+    return 0
+  fi
+  echo "  (tailnet not answering yet — propagation can take a moment; re-run status)"
+  return 1
+}
+
+cmd_off() {
+  # This tailscale build has no per-path delete — the cockpit-proven way is
+  # the all-or-nothing front: reset 443, re-apply the map MINUS our path.
+  if [ -n "$(tailnet_path)" ]; then
+    echo "unmounting $ORIGIN$PATHNAME …"
+    apply_serve_map "$PATHNAME"
+    [ -n "$(tailnet_path)" ] && echo "  warning: $PATHNAME is still mounted" >&2
+  fi
+  local pid; pid="$(listener_pid)"
+  if [ -z "$pid" ]; then
+    echo "sfh-staging: DARK (port $PORT, path unmounted)"
+    return 0
+  fi
+  echo "stopping server pid $pid …"
+  kill "$pid" 2>/dev/null || true
+  local i
+  for i in $(seq 1 15); do
+    [ -z "$(listener_pid)" ] && break
+    sleep 1
+  done
+  if [ -n "$(listener_pid)" ]; then
+    echo "still listening after TERM — sending KILL" >&2
+    kill -9 "$(listener_pid)" 2>/dev/null || true
+    sleep 2
+  fi
+  if [ -n "$(listener_pid)" ]; then
+    echo "FAIL: the port would not die (pid $(listener_pid))" >&2
+    return 1
+  fi
+  rm -f "$PIDFILE"
+  echo "sfh-staging: DARK — port $PORT free, path unmounted (the worktree is untouched)"
+}
+
+case "${1:-status}" in
+  on)     cmd_on ;;
+  off)    cmd_off ;;
+  status) cmd_status ;;
+  *) echo "usage: sfh-staging {on|off|status}" >&2; exit 2 ;;
+esac
