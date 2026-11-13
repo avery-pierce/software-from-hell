@@ -42,7 +42,7 @@
         padding: 0 1.25rem;
       }
 
-      /* ---------- hero (the only haunted part) ---------- */
+      /* ---------- hero ---------- */
       .hero {
         padding: clamp(3.5rem, 11vw, 7rem) 0 clamp(2.5rem, 7vw, 5rem);
         border-bottom: 1px solid var(--line);
@@ -72,13 +72,6 @@
         height: auto;
         max-width: 40rem;
         margin: 0 auto;
-        animation: quiver 0.9s steps(2) infinite;
-      }
-      @keyframes quiver {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        25% { transform: translate(-1.5px, 1px) rotate(-0.4deg); }
-        50% { transform: translate(1.5px, -1px) rotate(0.3deg); }
-        75% { transform: translate(-1px, -1.5px) rotate(0.5deg); }
       }
       .tagline {
         max-width: 38rem;
@@ -219,11 +212,6 @@
           grid-template-columns: 1fr;
         }
       }
-      @media (prefers-reduced-motion: reduce) {
-        .hero-art {
-          animation: none;
-        }
-      }
     </style>
   </head>
   <body>
@@ -236,8 +224,8 @@
           <img
             class="hero-art"
             src="hero.png"
-            width="1024"
-            height="576"
+            width="1280"
+            height="640"
             alt="Software From Hell"
           />
           <p class="tagline">
