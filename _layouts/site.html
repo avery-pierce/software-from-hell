@@ -329,7 +329,7 @@
           {% if page.title %}<h1 class="sr">{{ page.title }}</h1>{% endif %}
           <img
             class="hero-art"
-            src="{{ prefix }}{{ page.image | remove: "/" }}"
+            src="{{ prefix }}{{ page.image | remove_first: "/" }}"
             width="1280"
             height="640"
             alt="{{ page.alt | default: page.title | default: site.title }}"
