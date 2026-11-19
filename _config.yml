@@ -1,0 +1,29 @@
+# Software From Hell — a Jekyll site (built on GitHub Pages).
+#
+# One in-house layout (_layouts/site.html) renders every page: the landing,
+# each article, the 404. Articles live in _posts/ as markdown; they supply
+# content + front matter (title, description, image, builds_on) and nothing
+# else. Self-contained CSS, no theme, no JavaScript but the footer year.
+
+title: Software From Hell
+description: >-
+  Tutorials and lessons for the machines you keep — local LLMs and desktop
+  tools. No cloud, no prerequisites — just the machine in front of you.
+
+baseurl: ""
+markdown: kramdown
+permalink: /:slug/
+
+collections:
+  posts:
+    output: true
+    permalink: /:slug/
+
+defaults:
+  - scope:
+      collection: "posts"
+    values:
+      layout: "site"
+      type: "post"
+
+exclude: []

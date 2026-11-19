@@ -1,431 +1,199 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#16120e" />
-    <meta
-      name="description"
-      content="Software From Hell. Tutorials and lessons on running local LLMs and desktop tools, kept and run on your own machine."
+---
+layout: site
+---
+<header class="hero">
+  <div class="wrap">
+    <h1 class="sr">Software From Hell</h1>
+    <img
+      class="hero-art"
+      src="{{ "hero.png" | relative_url }}"
+      width="1280"
+      height="640"
+      alt="Software From Hell"
     />
-    <title>Software From Hell</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,700;1,7..72,400&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #16120e;
-        --card: #1c1712;
-        --line: #2c251c;
-        --ink: #e8e6e1;
-        --dim: #a3a39b;
-        --faint: #6b6b64;
-        --accent: #c8353f;
-        --ok: #6fbf8e;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--ink);
-        font-family: "Literata", Georgia, serif;
-        line-height: 1.65;
-        font-size: 1rem;
-      }
-      ::selection {
-        background: var(--accent);
-        color: #f5f3ee;
-      }
-      .wrap {
-        max-width: 68rem;
-        margin: 0 auto;
-        padding: 0 1.25rem;
-      }
+    <p class="tagline">
+      Tutorials and lessons for the machines you keep — <b>local LLMs</b> and
+      <b>desktop tools</b>. No cloud, no prerequisites — just the machine in front
+      of you.
+    </p>
+  </div>
+</header>
 
-      /* ---------- hero ---------- */
-      .hero {
-        padding: clamp(3.5rem, 11vw, 7rem) 0 clamp(2.5rem, 7vw, 5rem);
-        border-bottom: 1px solid var(--line);
-        text-align: center;
-      }
-      .sr {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        clip-path: inset(50%);
-      }
-      .hero-art {
-        display: block;
-        width: 100%;
-        height: auto;
-        max-width: 40rem;
-        margin: 0 auto;
-      }
-      .tagline {
-        max-width: 38rem;
-        margin: 1.75rem auto 0;
-        color: var(--dim);
-        font-size: 1.05rem;
-      }
-      .tagline b {
-        color: var(--ink);
-        font-weight: 600;
-      }
+<main class="wrap">
+  <!-- ================= TRACK 1 : LOCAL LLM ================= -->
+  <h2 class="track-label"><span class="side">PART 1</span> Local LLM Tutorials</h2>
+  <div class="rule" aria-hidden="true"></div>
+  <p class="track-sub">
+    Run a language model on your own machine, and keep it there.
+    Six lessons, none of them phoning home.
+  </p>
 
-      /* ---------- sections ---------- */
-      .track-label {
-        display: flex;
-        align-items: baseline;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin: clamp(2.75rem, 7vw, 4.5rem) 0 0.5rem;
-        font-size: clamp(1.5rem, 4vw, 1.9rem);
-        font-weight: 600;
-        font-family: "Fraunces", Georgia, serif;
-        letter-spacing: -0.01em;
-        color: var(--ink);
-      }
-      .track-label .side {
-        font-size: 0.68rem;
-        letter-spacing: 0.3em;
-        color: var(--accent);
-        font-weight: 600;
-      }
-      .rule {
-        height: 1px;
-        margin: 0 0 0.4rem;
-        background: var(--line);
-      }
-      .track-sub {
-        color: var(--dim);
-        max-width: 44rem;
-        margin: 0.9rem 0 1.5rem;
-      }
+  <div class="tapes">
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-01</span><span>Part 1</span></div>
+      <h3>Your First Local LLM</h3>
+      <p class="desc">
+        Your first local LLM, running on your own machine. What
+        &ldquo;local&rdquo; means, what a model file is, and the moment it
+        answers you.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
+        <span class="dur">~10 min</span>
+      </div>
+    </article>
 
-      /* ---------- lesson cards ---------- */
-      .tapes {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.25rem;
-      }
-      .tape {
-        border: 1px solid var(--line);
-        background: var(--card);
-        padding: 1.25rem 1.25rem 1rem;
-      }
-      .tape .meta-line {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 0.75rem;
-        margin-bottom: 0.6rem;
-        font-size: 0.68rem;
-        letter-spacing: 0.22em;
-        color: var(--faint);
-        text-transform: uppercase;
-      }
-      .tape .meta-line .ep {
-        color: var(--accent);
-      }
-      .tape h3 {
-        margin: 0 0 0.5rem;
-        font-size: 1.15rem;
-        font-weight: 600;
-        font-family: "Fraunces", Georgia, serif;
-        letter-spacing: -0.01em;
-        color: var(--ink);
-        overflow-wrap: anywhere;
-      }
-      .tape .desc {
-        margin: 0 0 0.9rem;
-        color: var(--dim);
-        font-size: 0.95rem;
-      }
-      .tape .foot {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.75rem;
-        border-top: 1px solid var(--line);
-        padding-top: 0.7rem;
-        font-size: 0.66rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-      }
-      .tape .foot .status .dot {
-        display: inline-block;
-        width: 0.5em;
-        height: 0.5em;
-        border-radius: 50%;
-        margin-right: 0.5em;
-        background: var(--faint);
-      }
-      .tape .foot .status {
-        color: var(--faint);
-      }
-      .tape.live .foot .status {
-        color: var(--ok);
-      }
-      .tape.live .foot .status .dot {
-        background: var(--ok);
-      }
-      .tape .foot .dur {
-        color: var(--faint);
-      }
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-02</span><span>Part 1</span></div>
+      <h3>Talking to Your Model</h3>
+      <p class="desc">
+        Talking to your model through a prompt. How context works, why it
+        forgets you, and how to talk so it doesn&rsquo;t.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
+        <span class="dur">~12 min</span>
+      </div>
+    </article>
 
-      /* ---------- footer ---------- */
-      .foot-main {
-        margin-top: clamp(3rem, 8vw, 5.5rem);
-        border-top: 1px solid var(--line);
-        padding: 2.25rem 0 3rem;
-        text-align: center;
-        color: var(--dim);
-        font-size: 0.82rem;
-        letter-spacing: 0.06em;
-      }
-      .foot-main .hot {
-        display: block;
-        font-size: 1.4rem;
-        letter-spacing: 0;
-        color: var(--ink);
-        font-weight: 900;
-        font-family: "Fraunces", Georgia, serif;
-        margin-bottom: 0.5rem;
-      }
-      .foot-main .fine {
-        margin-top: 0.9rem;
-        color: var(--faint);
-      }
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-03</span><span>Part 1</span></div>
+      <h3>Choosing a Model That Fits</h3>
+      <p class="desc">
+        Model sizes, quantizations, and the arithmetic of what your
+        hardware can actually hold — and how to find out what fits.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~15 min</span>
+      </div>
+    </article>
 
-      /* ---------- responsive ---------- */
-      @media (max-width: 48rem) {
-        .tapes {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-                <div class="page">
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-04</span><span>Part 1</span></div>
+      <h3>Giving It an API</h3>
+      <p class="desc">
+        Your model speaks HTTP now. OpenAI-style endpoints, your first
+        curl, and how software talks to your model.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~18 min</span>
+      </div>
+    </article>
 
-      <header class="hero">
-        <div class="wrap">
-          <h1 class="sr">Software From Hell</h1>
-          <img
-            class="hero-art"
-            src="hero.png"
-            width="1280"
-            height="640"
-            alt="Software From Hell"
-          />
-          <p class="tagline">
-            Tutorials and lessons for the machines you keep — <b>local LLMs</b>
-            and <b>desktop tools</b>. No cloud, no prerequisites — just the
-            machine in front of you.
-          </p>
-        </div>
-      </header>
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-05</span><span>Part 1</span></div>
+      <h3>Tools and Guardrails</h3>
+      <p class="desc">
+        Agentic models: giving your local LLM real tools — files, shells,
+        the web — and the guardrails that keep it in its lane.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~20 min</span>
+      </div>
+    </article>
 
-      <main class="wrap">
-        <!-- ================= TRACK 1 : LOCAL LLM ================= -->
-        <h2 class="track-label"><span class="side">PART 1</span> Local LLM Tutorials</h2>
-        <div class="rule" aria-hidden="true"></div>
-        <p class="track-sub">
-          Run a language model on your own machine, and keep it there.
-          Six lessons, none of them phoning home.
-        </p>
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-06</span><span>Part 1</span></div>
+      <h3>Running It Every Day</h3>
+      <p class="desc">
+        Keeping a local model alive: memory, thermal noise, daily
+        discipline, and the routine of running one on a laptop.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~14 min</span>
+      </div>
+    </article>
+  </div>
 
-        <div class="tapes">
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-01</span><span>Part 1</span></div>
-            <h3>Your First Local LLM</h3>
-            <p class="desc">
-              Your first local LLM, running on your own machine. What
-              &ldquo;local&rdquo; means, what a model file is, and the moment it
-              answers you.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
-              <span class="dur">~10 min</span>
-            </div>
-          </article>
+  <!-- ================= TRACK 2 : DESKTOP TOOLS ================= -->
+  <h2 class="track-label"><span class="side">PART 2</span> Desktop Tools</h2>
+  <div class="rule" aria-hidden="true"></div>
+  <p class="track-sub">
+    Learn the terminal, the file system, and the automations that run
+    while you sleep.
+  </p>
 
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-02</span><span>Part 1</span></div>
-            <h3>Talking to Your Model</h3>
-            <p class="desc">
-              Talking to your model through a prompt. How context works, why it
-              forgets you, and how to talk so it doesn&rsquo;t.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
-              <span class="dur">~12 min</span>
-            </div>
-          </article>
+  <div class="tapes">
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-01</span><span>Part 2</span></div>
+      <h3>The Command Line</h3>
+      <p class="desc">
+        The command line without dread: where you are, where things go,
+        and the ten commands that open every other door.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~12 min</span>
+      </div>
+    </article>
 
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-03</span><span>Part 1</span></div>
-            <h3>Choosing a Model That Fits</h3>
-            <p class="desc">
-              Model sizes, quantizations, and the arithmetic of what your
-              hardware can actually hold — and how to find out what fits.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~15 min</span>
-            </div>
-          </article>
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-02</span><span>Part 2</span></div>
+      <h3>Files, Paths, and Where Things Go</h3>
+      <p class="desc">
+        Paths, permissions, and the file tree as a place. Find anything,
+        and keep it findable.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~10 min</span>
+      </div>
+    </article>
 
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-04</span><span>Part 1</span></div>
-            <h3>Giving It an API</h3>
-            <p class="desc">
-              Your model speaks HTTP now. OpenAI-style endpoints, your first
-              curl, and how software talks to your model.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~18 min</span>
-            </div>
-          </article>
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-03</span><span>Part 2</span></div>
+      <h3>Scheduling: cron and Friends</h3>
+      <p class="desc">
+        Scheduling: cron and friends. Small jobs that run while you
+        sleep — and how to stop them.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~14 min</span>
+      </div>
+    </article>
 
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-05</span><span>Part 1</span></div>
-            <h3>Tools and Guardrails</h3>
-            <p class="desc">
-              Agentic models: giving your local LLM real tools — files, shells,
-              the web — and the guardrails that keep it in its lane.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~20 min</span>
-            </div>
-          </article>
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-04</span><span>Part 2</span></div>
+      <h3>Scripting the Desktop</h3>
+      <p class="desc">
+        Scripting desktop apps from the shell — so you stop repeating
+        yourself.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~16 min</span>
+      </div>
+    </article>
 
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-06</span><span>Part 1</span></div>
-            <h3>Running It Every Day</h3>
-            <p class="desc">
-              Keeping a local model alive: memory, thermal noise, daily
-              discipline, and the routine of running one on a laptop.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~14 min</span>
-            </div>
-          </article>
-        </div>
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-05</span><span>Part 2</span></div>
+      <h3>Backups: The 3-2-1 Rule</h3>
+      <p class="desc">
+        The 3-2-1 rule, tested restores, and the difference between
+        having data and keeping it.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~11 min</span>
+      </div>
+    </article>
 
-        <!-- ================= TRACK 2 : DESKTOP TOOLS ================= -->
-        <h2 class="track-label"><span class="side">PART 2</span> Desktop Tools</h2>
-        <div class="rule" aria-hidden="true"></div>
-        <p class="track-sub">
-          Learn the terminal, the file system, and the automations that run
-          while you sleep.
-        </p>
-
-        <div class="tapes">
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-01</span><span>Part 2</span></div>
-            <h3>The Command Line</h3>
-            <p class="desc">
-              The command line without dread: where you are, where things go,
-              and the ten commands that open every other door.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~12 min</span>
-            </div>
-          </article>
-
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-02</span><span>Part 2</span></div>
-            <h3>Files, Paths, and Where Things Go</h3>
-            <p class="desc">
-              Paths, permissions, and the file tree as a place. Find anything,
-              and keep it findable.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~10 min</span>
-            </div>
-          </article>
-
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-03</span><span>Part 2</span></div>
-            <h3>Scheduling: cron and Friends</h3>
-            <p class="desc">
-              Scheduling: cron and friends. Small jobs that run while you
-              sleep — and how to stop them.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~14 min</span>
-            </div>
-          </article>
-
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-04</span><span>Part 2</span></div>
-            <h3>Scripting the Desktop</h3>
-            <p class="desc">
-              Scripting desktop apps from the shell — so you stop repeating
-              yourself.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~16 min</span>
-            </div>
-          </article>
-
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-05</span><span>Part 2</span></div>
-            <h3>Backups: The 3-2-1 Rule</h3>
-            <p class="desc">
-              The 3-2-1 rule, tested restores, and the difference between
-              having data and keeping it.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~11 min</span>
-            </div>
-          </article>
-
-          <article class="tape">
-            <div class="meta-line"><span class="ep">L-06</span><span>Part 2</span></div>
-            <h3>Knowing It Is Alive</h3>
-            <p class="desc">
-              Knowing the machine is alive: simple checks, logs, and the
-              difference between a machine that works and one you can trust.
-            </p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">~13 min</span>
-            </div>
-          </article>
-        </div>
-      </main>
-
-      <footer class="foot-main">
-        <div class="wrap">
-          <span class="hot">Run it yourself.</span>
-          © <span id="yr">1986</span> Software From Hell.
-          Built for the machine you already have.
-          <div class="fine">
-            No cookies. No cloud.
-          </div>
-        </div>
-      </footer>
-    </div>
-
-    <script>
-      document.getElementById("yr").textContent = String(new Date().getFullYear());
-    </script>
-  </body>
-</html>
+    <article class="tape">
+      <div class="meta-line"><span class="ep">L-06</span><span>Part 2</span></div>
+      <h3>Knowing It Is Alive</h3>
+      <p class="desc">
+        Knowing the machine is alive: simple checks, logs, and the
+        difference between a machine that works and one you can trust.
+      </p>
+      <div class="foot">
+        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+        <span class="dur">~13 min</span>
+      </div>
+    </article>
+  </div>
+</main>

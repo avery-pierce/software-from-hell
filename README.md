@@ -1,2 +1,5 @@
 # software-from-hell
-Private GitHub Pages repository for the Software from Hell project
+
+The GitHub Pages site behind softwarefromhell.com: a Jekyll static site
+(articles in `_posts/`, one shared in-house layout in `_layouts/site.html`).
+Push to `main` and Pages publishes it.
