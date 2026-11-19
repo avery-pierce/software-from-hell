@@ -78,7 +78,7 @@ def write_png(path, w, h, ctype, pixels):
     def chunk(typ, data):
         return struct.pack(">I", len(data)) + typ + data + struct.pack(">I", zlib.crc32(typ + data) & 0xFFFFFFFF)
     out = b"\x89PNG\r\n\x1a\n"
-    out += chunk(b"IHDR", struct.pack(">IIBB", w, h, 8, ctype))
+    out += chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, ctype, 0, 0, 0))  # 13 bytes: w,h,bits,ctype,compression,filter,interlace
     for i in range(0, len(idat), 65536):
         out += chunk(b"IDAT", idat[i:i+65536])
     out += chunk(b"IEND", b"")
