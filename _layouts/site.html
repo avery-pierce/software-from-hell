@@ -313,15 +313,13 @@
   </head>
   <body>
     {#
-      Relative prefix for this page's depth. The site must render identically at a
-      domain root (softwarefromhell.com) and prefix-mounted behind a proxy
-      (/sfh-staging/ on the tailnet), so the layout never emits "/..." absolute paths.
-      section pages (trailing slash, /slug/) split into three parts, root and root files
-      into one or two: size > 2 is the one-deep test. (Jekyll's for-loop won't take
-      a variable range, and liquid if-statements can't call filters — the split is
-      the whole trick.)
+      Paths are relative BY LAW, not by computation. The site renders identically
+      at a domain root (softwarefromhell.com) and prefix-mounted behind a proxy
+      (/sfh-staging/ on the tailnet): section pages sit one level deep (/slug/)
+      and everything they reference is written "../"-relative; root pages write
+      bare relative. No runtime depth trickery — 2026 liquid's deferred assigns
+      and its if-statement size handling are not load-bearing here.
     #}
-    {% assign parts = page.url | split: "/" %}{% if parts.size > 2 %}{% assign prefix = "../" %}{% else %}{% assign prefix = "" %}{% endif %}
     <div class="page">
       {% if page.image %}
       <header class="hero">
@@ -329,7 +327,7 @@
           {% if page.title %}<h1 class="sr">{{ page.title }}</h1>{% endif %}
           <img
             class="hero-art"
-            src="{{ prefix }}{{ page.image | remove_first: "/" }}"
+            src="{{ page.image }}"
             width="1280"
             height="640"
             alt="{{ page.alt | default: page.title | default: site.title }}"
