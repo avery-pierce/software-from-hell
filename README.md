@@ -23,3 +23,8 @@ Push to `main` and Pages publishes it (no local build step in production;
   card updates itself — the catalog is never hand-edited.
 - Hero images are rendered by the local `ideogram-4-mflux` engine per the recipe
   in the site spec (1280x640, sepia watercolor plate, subject off dead-center).
+- Every generated image runs `python3 tools/feather.py <image> [--out PATH]`
+  before committing: a smoothstep blend (80px sides / 48px top-bottom) into the
+  page background (`--bg`, read from the layout CSS — a palette change changes
+  the feather with it). The plate dissolves into the page; no visible rectangle.
+  Once per render, before the commit — feathering is not idempotent.

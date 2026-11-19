@@ -38,6 +38,9 @@ layout: site
         {%- if post -%}
           <a class="tape live" href="{{ post.url | remove_first: "/" }}">
             <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
+            {% if post.image %}
+            <div class="tape-media"><img src="{{ post.image | remove_first: "../" }}" loading="lazy" alt="" width="1280" height="640" /></div>
+            {% endif %}
             <h3>{{ post.title }}</h3>
             <p class="desc">{{ post.description | strip }}</p>
             <div class="foot">
