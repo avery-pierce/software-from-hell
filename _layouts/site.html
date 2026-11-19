@@ -313,13 +313,14 @@
   </head>
   <body>
     {#
-      Relative prefix for this page's depth: "" at the root, "../" for /slug/,
-      "../../" for /a/b/. The site must render identically at a domain root
-      (softwarefromhell.com) and when prefix-mounted behind a proxy
+      Relative prefix for this page's depth. The site must render identically at a
+      domain root (softwarefromhell.com) and prefix-mounted behind a proxy
       (/sfh-staging/ on the tailnet), so the layout never emits "/..." absolute paths.
+      Section pages (trailing slash, /slug/) sit one level deep: "../". Root-level
+      files sit at the door: "". (Jekyll's for-loop won't take a variable range —
+      the depth computed the clever way comes out empty.)
     #}
-    {% assign dparts = page.dir | split: "/" %}{% assign dsize = dparts | size %}
-    {% assign prefix = "" %}{% for _i in (1..dsize) offset: 1 %}{% assign prefix = prefix | append: "../" %}{% endfor %}
+    {% if page.url endsWith "/" %}{% assign prefix = "../" %}{% else %}{% assign prefix = "" %}{% endif %}
     <div class="page">
       {% if page.image %}
       <header class="hero">
