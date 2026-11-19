@@ -312,14 +312,14 @@
     </style>
   </head>
   <body>
-    {#
-      Paths are relative BY LAW, not by computation. The site renders identically
-      at a domain root (softwarefromhell.com) and prefix-mounted behind a proxy
-      (/sfh-staging/ on the tailnet): section pages sit one level deep (/slug/)
-      and everything they reference is written "../"-relative; root pages write
-      bare relative. No runtime depth trickery — 2026 liquid's deferred assigns
-      and its if-statement size handling are not load-bearing here.
-    #}
+    {% comment %}
+    Paths are relative BY LAW, not by computation. The site renders identically
+at a domain root (softwarefromhell.com) and prefix-mounted behind a proxy
+(/sfh-staging/ on the tailnet): section pages sit one level deep (/slug/)
+and everything they reference is written "../"-relative; root pages write
+bare relative. No runtime depth trickery — 2026 liquid's deferred assigns
+and its if-statement size handling are not load-bearing here.
+    {% endcomment %}
     <div class="page">
       {% if page.image %}
       <header class="hero">
