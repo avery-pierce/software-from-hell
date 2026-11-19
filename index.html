@@ -21,6 +21,70 @@ layout: site
 
 <main class="wrap">
   {%- for s in site.data.landing.sections -%}
+    {%- comment %}
+      Does this section contain a published article? Computed with a single-line
+      filter (contains, on joined slug lists) — NOT a flag assigned inside a loop:
+      2026 liquid (4.0.4) does not persist loop-scoped assigns out of the loop,
+      and where_exp is dead. A section renders only when something in it is live.
+    {%- endcomment -%}
+    {%- assign anypost = s.slots | map: "slug" | join: "," | contains: (site.posts | map: "slug" | join: ",") -%}
+    {%- if anypost -%}
+  <section>
+    <h2 class="track-label"><span class="side">{{ s.side | upcase }}</span> {{ s.label }}</h2>
+    <div class="rule" aria-hidden="true"></div>
+    <p class="track-sub">{{ s.sub }}</p>
+
+    <div class="tapes">
+      {%- for slot in s.slots -%}
+        {%- assign post = nil -%}
+        {%- for p in site.posts -%}
+          {%- if p.slug == slot.slug -%}
+            {%- assign post = p -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if post -%}
+          <a class="tape" href="{{ post.url | remove_first: "/" }}">
+            <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
+            {% if post.image %}
+            <div class="tape-media"><img src="{{ post.image | remove_first: "../" }}" loading="lazy" alt="" width="1280" height="640" /></div>
+            {% endif %}
+            <h3>{{ post.title }}</h3>
+            <p class="desc">{{ post.description | strip }}</p>
+            <div class="foot">
+              <span class="dur">{{ slot.dur }}</span>
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+  {%- endif -%}
+  {%- endfor -%}
+</main>---
+layout: site
+---
+<header class="hero">
+  <div class="wrap">
+    <h1 class="sr">Software From Hell</h1>
+    <img
+      class="hero-art"
+      src="hero.png"
+      width="1280"
+      height="640"
+      alt="Software From Hell"
+    />
+    <p class="tagline">
+      Tutorials and lessons for the machines you keep — <b>local LLMs</b> and
+      <b>desktop tools</b>. No cloud, no prerequisites — just the machine in front
+      of you.
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+  {%- for s in site.data.landing.sections -%}
+  {%- assign anypost = false -%}
+  {%- if anypost -%}
   <section>
     <h2 class="track-label"><span class="side">{{ s.side | upcase }}</span> {{ s.label }}</h2>
     <div class="rule" aria-hidden="true"></div>
@@ -36,7 +100,8 @@ layout: site
         {%- endfor -%}
 
         {%- if post -%}
-          <a class="tape live" href="{{ post.url | remove_first: "/" }}">
+        {%- assign anypost = true -%}
+          <a class="tape" href="{{ post.url | remove_first: "/" }}">
             <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
             {% if post.image %}
             <div class="tape-media"><img src="{{ post.image | remove_first: "../" }}" loading="lazy" alt="" width="1280" height="640" /></div>
@@ -44,23 +109,12 @@ layout: site
             <h3>{{ post.title }}</h3>
             <p class="desc">{{ post.description | strip }}</p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
               <span class="dur">{{ slot.dur }}</span>
             </div>
           </a>
-        {%- else -%}
-          <article class="tape">
-            <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
-            <h3>{{ slot.title }}</h3>
-            <p class="desc">{{ slot.desc }}</p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">{{ slot.dur }}</span>
-            </div>
-          </article>
-        {%- endif -%}
+      {%- endif -%}
       {%- endfor -%}
     </div>
   </section>
+  {%- endif -%}
   {%- endfor -%}
-</main>
