@@ -162,7 +162,7 @@ cmd_on() {
     echo "server already UP on $PORT (pid $pid) — rebuilt, serving $SERVEDIR"
   else
     echo "starting the staging server on $PORT (serving $SERVEDIR) …"
-    nohup python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$SERVEDIR" >>"$LOG" 2>&1 &
+    nohup python3 "$DIR/tools/previewserv.py" "$PORT" --bind 127.0.0.1 --directory "$SERVEDIR" >>"$LOG" 2>&1 &
     local started=$!
     echo "$started" > "$PIDFILE"   # snapshot of a nohup'd child — the live port is the truth
     local i
