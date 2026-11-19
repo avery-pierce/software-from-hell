@@ -1,0 +1,107 @@
+# The landing's tracks and their slots.
+#
+# Slots are the content plan (~/projects/sfh-content/content-plan.md) made
+# machine-readable. Render rule: if a post with the same slug exists in the
+# current build, the card is live and links to the post; otherwise it is a
+# coming-soon card. Status is never stored — it is a fact. Only `main` is
+# live, and Pages builds `main`.
+#
+# NOTE: Jekyll _data files must be top-level mappings — the tracks live
+# under `sections:` (access in liquid as site.data.landing.sections).
+#
+# `n` is the card's ordinal. Titles, descs, durs are the owner's to edit.
+
+sections:
+  - key: "setup"
+    side: "Part 1"
+    label: "The Setup"
+    sub: "One long article — the off-the-shelf foundation. From a plain machine to the first turn."
+    slots:
+      - n: "1"
+        slug: "your-first-local-llm"
+        title: "Your first local LLM"
+        desc: "What “local” means, what a model file is, picking one that fits — and the moment it answers you."
+        dur: "long read"
+
+  - key: "tools"
+    side: "Part 2"
+    label: "The Tools I Built"
+    sub: "Six homegrown organs of one machine, in the order they were needed. Each opens with its prerequisites and closes with the piece that builds on it."
+    slots:
+      - n: "1"
+        slug: "mem"
+        title: "mem"
+        desc: "Notes memory cannot damage from itself. The session boots warm because the store tells it what just happened."
+        dur: "~12 min"
+      - n: "2"
+        slug: "tags"
+        title: "tags"
+        desc: "One shared vocabulary — memories, tasks, and hazards all validate against the same list."
+        dur: "~10 min"
+      - n: "3"
+        slug: "checklist"
+        title: "checklist"
+        desc: "When the agent gets stuck in the weeds, it adds an item and moves on. One line of plain text each."
+        dur: "~11 min"
+      - n: "4"
+        slug: "flags"
+        title: "flags"
+        desc: "The hazard register. Raise it when seen, close it only by judgment — nothing evaporates."
+        dur: "~11 min"
+      - n: "5"
+        slug: "chronograph"
+        title: "chronograph"
+        desc: "One clock for everything the machine does unattended — a single time-series store scattered logs can’t fake."
+        dur: "~15 min"
+      - n: "6"
+        slug: "cockpit"
+        title: "cockpit"
+        desc: "The face that looks back at the reader: the whole machine’s state, its queued work, its faces — one place."
+        dur: "~16 min"
+
+  - key: "machine"
+    side: "Part 3"
+    label: "The Machine"
+    sub: "The capstone. The agent loop and the six organs, running together as one working system — what the whole site was stairs to."
+    slots:
+      - n: "1"
+        slug: "the-machine"
+        title: "The machine"
+        desc: "The brain on the local model, plus the organs that make it a system. The whole machine, running."
+        dur: "long read"
+
+  - key: "desktop"
+    side: "Part 4"
+    label: "Desktop Tools"
+    sub: "Learn the terminal, the file system, and the automations that run while you sleep."
+    slots:
+      - n: "1"
+        slug: "the-command-line"
+        title: "The Command Line"
+        desc: "The command line without dread: where you are, where things go, and the ten commands that open every other door."
+        dur: "~12 min"
+      - n: "2"
+        slug: "files-paths-where-things-go"
+        title: "Files, Paths, and Where Things Go"
+        desc: "Paths, permissions, and the file tree as a place. Find anything, and keep it findable."
+        dur: "~10 min"
+      - n: "3"
+        slug: "scheduling-cron-and-friends"
+        title: "Scheduling: cron and Friends"
+        desc: "Small jobs that run while you sleep — and how to stop them."
+        dur: "~14 min"
+      - n: "4"
+        slug: "scripting-the-desktop"
+        title: "Scripting the Desktop"
+        desc: "Scripting desktop apps from the shell — so you stop repeating yourself."
+        dur: "~16 min"
+      - n: "5"
+        slug: "backups-the-3-2-1-rule"
+        title: "Backups: The 3-2-1 Rule"
+        desc: "The 3-2-1 rule, tested restores, and the difference between having data and keeping it."
+        dur: "~11 min"
+      - n: "6"
+        slug: "knowing-it-is-alive"
+        title: "Knowing It Is Alive"
+        desc: "Simple checks, logs, and the difference between a machine that works and one you can trust."
+        dur: "~13 min"

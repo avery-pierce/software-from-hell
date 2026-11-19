@@ -20,180 +20,44 @@ layout: site
 </header>
 
 <main class="wrap">
-  <!-- ================= TRACK 1 : LOCAL LLM ================= -->
-  <h2 class="track-label"><span class="side">PART 1</span> Local LLM Tutorials</h2>
-  <div class="rule" aria-hidden="true"></div>
-  <p class="track-sub">
-    Run a language model on your own machine, and keep it there.
-    Six lessons, none of them phoning home.
-  </p>
+  {%- for s in site.data.landing.sections -%}
+  <section>
+    <h2 class="track-label"><span class="side">{{ s.side | upcase }}</span> {{ s.label }}</h2>
+    <div class="rule" aria-hidden="true"></div>
+    <p class="track-sub">{{ s.sub }}</p>
 
-  <div class="tapes">
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-01</span><span>Part 1</span></div>
-      <h3>Your First Local LLM</h3>
-      <p class="desc">
-        Your first local LLM, running on your own machine. What
-        &ldquo;local&rdquo; means, what a model file is, and the moment it
-        answers you.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
-        <span class="dur">~10 min</span>
-      </div>
-    </article>
+    <div class="tapes">
+      {%- for slot in s.slots -%}
+        {%- assign post = nil -%}
+        {%- for p in site.articles -%}
+          {%- if p.slug == slot.slug -%}
+            {%- assign post = p -%}
+          {%- endif -%}
+        {%- endfor -%}
 
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-02</span><span>Part 1</span></div>
-      <h3>Talking to Your Model</h3>
-      <p class="desc">
-        Talking to your model through a prompt. How context works, why it
-        forgets you, and how to talk so it doesn&rsquo;t.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
-        <span class="dur">~12 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-03</span><span>Part 1</span></div>
-      <h3>Choosing a Model That Fits</h3>
-      <p class="desc">
-        Model sizes, quantizations, and the arithmetic of what your
-        hardware can actually hold — and how to find out what fits.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~15 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-04</span><span>Part 1</span></div>
-      <h3>Giving It an API</h3>
-      <p class="desc">
-        Your model speaks HTTP now. OpenAI-style endpoints, your first
-        curl, and how software talks to your model.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~18 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-05</span><span>Part 1</span></div>
-      <h3>Tools and Guardrails</h3>
-      <p class="desc">
-        Agentic models: giving your local LLM real tools — files, shells,
-        the web — and the guardrails that keep it in its lane.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~20 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-06</span><span>Part 1</span></div>
-      <h3>Running It Every Day</h3>
-      <p class="desc">
-        Keeping a local model alive: memory, thermal noise, daily
-        discipline, and the routine of running one on a laptop.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~14 min</span>
-      </div>
-    </article>
-  </div>
-
-  <!-- ================= TRACK 2 : DESKTOP TOOLS ================= -->
-  <h2 class="track-label"><span class="side">PART 2</span> Desktop Tools</h2>
-  <div class="rule" aria-hidden="true"></div>
-  <p class="track-sub">
-    Learn the terminal, the file system, and the automations that run
-    while you sleep.
-  </p>
-
-  <div class="tapes">
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-01</span><span>Part 2</span></div>
-      <h3>The Command Line</h3>
-      <p class="desc">
-        The command line without dread: where you are, where things go,
-        and the ten commands that open every other door.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~12 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-02</span><span>Part 2</span></div>
-      <h3>Files, Paths, and Where Things Go</h3>
-      <p class="desc">
-        Paths, permissions, and the file tree as a place. Find anything,
-        and keep it findable.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~10 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-03</span><span>Part 2</span></div>
-      <h3>Scheduling: cron and Friends</h3>
-      <p class="desc">
-        Scheduling: cron and friends. Small jobs that run while you
-        sleep — and how to stop them.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~14 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-04</span><span>Part 2</span></div>
-      <h3>Scripting the Desktop</h3>
-      <p class="desc">
-        Scripting desktop apps from the shell — so you stop repeating
-        yourself.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~16 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-05</span><span>Part 2</span></div>
-      <h3>Backups: The 3-2-1 Rule</h3>
-      <p class="desc">
-        The 3-2-1 rule, tested restores, and the difference between
-        having data and keeping it.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~11 min</span>
-      </div>
-    </article>
-
-    <article class="tape">
-      <div class="meta-line"><span class="ep">L-06</span><span>Part 2</span></div>
-      <h3>Knowing It Is Alive</h3>
-      <p class="desc">
-        Knowing the machine is alive: simple checks, logs, and the
-        difference between a machine that works and one you can trust.
-      </p>
-      <div class="foot">
-        <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-        <span class="dur">~13 min</span>
-      </div>
-    </article>
-  </div>
+        {%- if post -%}
+          <a class="tape live" href="{{ post.url | relative_url }}">
+            <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
+            <h3>{{ post.title }}</h3>
+            <p class="desc">{{ post.description | strip }}</p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
+              <span class="dur">{{ slot.dur }}</span>
+            </div>
+          </a>
+        {%- else -%}
+          <article class="tape">
+            <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
+            <h3>{{ slot.title }}</h3>
+            <p class="desc">{{ slot.desc }}</p>
+            <div class="foot">
+              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
+              <span class="dur">{{ slot.dur }}</span>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+  {%- endfor -%}
 </main>

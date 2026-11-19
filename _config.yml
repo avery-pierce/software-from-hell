@@ -12,16 +12,15 @@ description: >-
 
 baseurl: ""
 markdown: kramdown
-permalink: /:slug/
 
 collections:
-  posts:
+  articles:
     output: true
     permalink: /:slug/
 
 defaults:
   - scope:
-      collection: "posts"
+      collection: "articles"
     values:
       layout: "site"
       type: "post"
