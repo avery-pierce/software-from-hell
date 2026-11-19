@@ -11,7 +11,10 @@ Push to `main` and Pages publishes it (no local build step in production;
 - Drafts live on the `drafts` branch: an article is one markdown file in
   `_articles/` (front matter: `title`, `description`, `section`, `image`, `alt`,
   `plate_sub`), and its hero image in `images/<slug>/` (PNG + its caption JSON
-  sidecar). Rendered locally, then shown to the owner; nothing merges to `main`
+  sidecar). **Links inside an article are relative** (`../mem/`), and the layout
+  resolves asset paths relative to page depth — the same tree renders identically
+  at a domain root and prefix-mounted (the tailnet `/sfh-staging/` preview).
+  Rendered locally, then shown to the owner; nothing merges to `main`
   until the owner approves the words *and* picks the hero take.
 - The landing cards generate from `_data/landing.yml` (the content plan, made
   machine-readable) cross-referenced against `_articles/`: a slot with a post is

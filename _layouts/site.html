@@ -312,6 +312,14 @@
     </style>
   </head>
   <body>
+    {#
+      Relative prefix for this page's depth: "" at the root, "../" for /slug/,
+      "../../" for /a/b/. The site must render identically at a domain root
+      (softwarefromhell.com) and when prefix-mounted behind a proxy
+      (/sfh-staging/ on the tailnet), so the layout never emits "/..." absolute paths.
+    #}
+    {% assign dparts = page.dir | split: "/" %}{% assign dsize = dparts | size %}
+    {% assign prefix = "" %}{% for _i in (1..dsize) offset: 1 %}{% assign prefix = prefix | append: "../" %}{% endfor %}
     <div class="page">
       {% if page.image %}
       <header class="hero">
@@ -319,8 +327,9 @@
           {% if page.title %}<h1 class="sr">{{ page.title }}</h1>{% endif %}
           <img
             class="hero-art"
-            src="{{ page.image | relative_url }}"
-            {{ page.image_attr | default: "width=&quot;1280&quot; height=&quot;640&quot;" }}
+            src="{{ prefix }}{{ page.image | remove: "/" }}"
+            width="1280"
+            height="640"
             alt="{{ page.alt | default: page.title | default: site.title }}"
           />
           {% if page.title and page.image_title %}
