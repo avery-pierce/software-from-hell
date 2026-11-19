@@ -21,7 +21,15 @@ layout: site
 
 <main class="wrap">
   {%- for s in site.data.landing.sections -%}
-  <section>
+  {%- comment %}
+    Section headers are contents and always render. The cards beneath them do
+    not: an unpublished slot renders NOTHING — no coming-soon card, no status
+    dot. (2026-liquid quirk log: loop-scoped assigns do not survive the loop,
+    a failed assign leaves an empty string, and an empty string is TRUTHY — so
+    no flag machinery, no dynamic `contains` (parser rejects non-literals);
+    the for/if assign pattern below survives to the if on the next line, which
+    is all a card needs.)
+  {%- endcomment -%}
     <h2 class="track-label"><span class="side">{{ s.side | upcase }}</span> {{ s.label }}</h2>
     <div class="rule" aria-hidden="true"></div>
     <p class="track-sub">{{ s.sub }}</p>
@@ -34,9 +42,8 @@ layout: site
             {%- assign post = p -%}
           {%- endif -%}
         {%- endfor -%}
-
         {%- if post -%}
-          <a class="tape live" href="{{ post.url | remove_first: "/" }}">
+          <a class="tape" href="{{ post.url | remove_first: "/" }}">
             <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
             {% if post.image %}
             <div class="tape-media"><img src="{{ post.image | remove_first: "../" }}" loading="lazy" alt="" width="1280" height="640" /></div>
@@ -44,23 +51,11 @@ layout: site
             <h3>{{ post.title }}</h3>
             <p class="desc">{{ post.description | strip }}</p>
             <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Live</span>
               <span class="dur">{{ slot.dur }}</span>
             </div>
           </a>
-        {%- else -%}
-          <article class="tape">
-            <div class="meta-line"><span class="ep">{{ slot.n | prepend: "0" }}</span><span>{{ s.label }}</span></div>
-            <h3>{{ slot.title }}</h3>
-            <p class="desc">{{ slot.desc }}</p>
-            <div class="foot">
-              <span class="status"><span class="dot" aria-hidden="true"></span>Coming soon</span>
-              <span class="dur">{{ slot.dur }}</span>
-            </div>
-          </article>
         {%- endif -%}
       {%- endfor -%}
     </div>
-  </section>
   {%- endfor -%}
 </main>
