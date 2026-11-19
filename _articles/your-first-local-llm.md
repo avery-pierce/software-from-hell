@@ -183,4 +183,4 @@ A model that answers you, and nothing more — it has no memory that survives th
 session, and none of its own way to keep track of anything. The first organ was
 built to fix exactly that:
 
-**[mem — memory that survives the session](/mem/)**
+**[mem — memory that survives the session](../mem/)**
