@@ -1,12 +1,12 @@
 ---
 title: Your first local LLM
-description: What “local” means, what a model file is, picking one that fits, and the moment it answers you — practiced on a real machine.
+description: "What ‘local’ means, what a model file is, picking one that fits, and the moment it answers you — practiced on a real machine."
 section: setup
 builds_on: []
 next: /mem/
 image: /images/your-first-local-llm/hero.png
-alt: A faintly glowing brain in a glass specimen jar, painted in sepia watercolor on dark parchment.
-plate_sub: The off-the-shelf foundation: a language model that runs on the machine in front of you, and nothing behind it.
+alt: "A faintly glowing brain in a glass specimen jar, painted in sepia watercolor on dark parchment."
+plate_sub: "The off-the-shelf foundation: a language model that runs on the machine in front of you, and nothing behind it."
 ---
 
 You have used cloud language models. You know what they do. What this article
