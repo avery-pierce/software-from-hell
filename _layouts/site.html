@@ -279,6 +279,19 @@
         color: var(--faint);
       }
 
+      /* hero plates feather into var(--bg); the card's media window is that bg,
+         so a feathered image dissolves into the card, which sits on --card */
+      .tape .tape-media {
+        background: var(--bg);
+        border: 1px solid var(--line);
+        margin: 0 0 0.9rem;
+      }
+      .tape-media img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
       /* ---------- footer ---------- */
       .foot-main {
         margin-top: clamp(3rem, 8vw, 5.5rem);
