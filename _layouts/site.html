@@ -316,11 +316,12 @@
       Relative prefix for this page's depth. The site must render identically at a
       domain root (softwarefromhell.com) and prefix-mounted behind a proxy
       (/sfh-staging/ on the tailnet), so the layout never emits "/..." absolute paths.
-      Section pages (trailing slash, /slug/) sit one level deep: "../". Root-level
-      files sit at the door: "". (Jekyll's for-loop won't take a variable range —
-      the depth computed the clever way comes out empty.)
+      section pages (trailing slash, /slug/) split into three parts, root and root files
+      into one or two: size > 2 is the one-deep test. (Jekyll's for-loop won't take
+      a variable range, and liquid if-statements can't call filters — the split is
+      the whole trick.)
     #}
-    {% if page.url endsWith "/" %}{% assign prefix = "../" %}{% else %}{% assign prefix = "" %}{% endif %}
+    {% assign parts = page.url | split: "/" %}{% if parts.size > 2 %}{% assign prefix = "../" %}{% else %}{% assign prefix = "" %}{% endif %}
     <div class="page">
       {% if page.image %}
       <header class="hero">
