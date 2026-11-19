@@ -340,7 +340,13 @@ and its if-statement size handling are not load-bearing here.
       </header>
       {% endif %}
 
+      {% if page.type == "post" %}
+      <main class="prose">
       {{ content }}
+      </main>
+      {% else %}
+      {{ content }}
+      {% endif %}
 
       <footer class="foot-main">
         <div class="wrap">
