@@ -33,7 +33,25 @@ SERVE_MAP="${SFH_STAGING_MAP:-$HOME/projects/cockpit/serve-map.json}"   # the co
 RUNDIR="$HOME/.run/sfh-staging"
 LOG="$RUNDIR/server.log"
 PIDFILE="$RUNDIR/server.pid"
+JEKYLL="${SFH_JEKYLL:-$HOME/bin/jekyll}"
+SERVEDIR="$DIR"   # rebuilt on `on`: the worktree's jekyll build output, not the source
 mkdir -p "$RUNDIR"
+
+# The worktree is Jekyll source; a dumb http.server over it shows markdown.
+# Build into $RUNDIR/site (outside the worktree — the worktree stays clean)
+# and serve THAT. Falls back to the raw worktree for pre-Jekyll static trees.
+rebuild() {
+  if [ -f "$DIR/_config.yml" ]; then
+    echo "building the site (jekyll) → $RUNDIR/site …"
+    if ! (cd "$DIR" && "$JEKYLL" build --destination "$RUNDIR/site" >&2); then
+      echo "FAIL: jekyll build failed" >&2
+      return 1
+    fi
+    SERVEDIR="$RUNDIR/site"
+  else
+    SERVEDIR="$DIR"
+  fi
+}
 
 listener_pid() {   # the live owner of the port (empty when dark)
   lsof -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null | head -1 || true
@@ -114,7 +132,7 @@ cmd_status() {
     rm -f "$PIDFILE"
     [ -n "$(tailnet_path)" ] && return 1 || return 0
   fi
-  echo "sfh-staging: UP on $PORT (pid $pid)"
+  echo "sfh-staging: UP on $PORT (pid $pid, serving $SERVEDIR)"
   if [ -f "$PIDFILE" ] && [ "$(cat "$PIDFILE")" != "$pid" ]; then
     echo "  warning: pidfile drifted (live owner is $pid)"
   fi
@@ -134,12 +152,13 @@ cmd_status() {
 
 cmd_on() {
   local pid; pid="$(listener_pid)"
-  if [ -n "$pid" ]; then
-    echo "server already UP on $PORT (pid $pid)"
+  rebuild || return 1
+  if [ -n "$(listener_pid)" ]; then
+    # the server reads from disk per request — a rebuild refreshes what it serves
+    echo "server already UP on $PORT (pid $pid) — rebuilt, serving $SERVEDIR"
   else
-    echo "starting the staging server on $PORT (serving $DIR)…"
-    cd "$DIR"
-    nohup python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$DIR" >>"$LOG" 2>&1 &
+    echo "starting the staging server on $PORT (serving $SERVEDIR) …"
+    nohup python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$SERVEDIR" >>"$LOG" 2>&1 &
     local started=$!
     echo "$started" > "$PIDFILE"   # snapshot of a nohup'd child — the live port is the truth
     local i
@@ -156,7 +175,7 @@ cmd_on() {
       tail -5 "$LOG" >&2 || true
       return 1
     fi
-    echo "server UP: $DIR on $PORT"
+    echo "server UP: $SERVEDIR on $PORT"
   fi
   if [ -z "$(tailnet_path)" ]; then
     if in_map; then
