@@ -7,6 +7,7 @@ next: /mem/
 image: ../images/your-first-local-llm/hero.png
 alt: "A faintly glowing brain in a glass specimen jar, painted in sepia watercolor on dark parchment."
 plate_sub: "The off-the-shelf foundation: a language model that runs on the machine in front of you, and nothing behind it."
+image_title: true
 ---
 
 You have used cloud language models. You know what they do. What this article
