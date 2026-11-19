@@ -43,10 +43,14 @@ mkdir -p "$RUNDIR"
 rebuild() {
   if [ -f "$DIR/_config.yml" ]; then
     echo "building the site (jekyll) → $RUNDIR/site …"
-    if ! (cd "$DIR" && "$JEKYLL" build --destination "$RUNDIR/site" >&2); then
-      echo "FAIL: jekyll build failed" >&2
+    # Jekyll exits 0 on content errors — match its own output for them.
+    local out; out="$(cd "$DIR" && "$JEKYLL" build --destination "$RUNDIR/site" 2>&1)"
+    if [ $? -ne 0 ] || printf '%s' "$out" | grep -qE "Error:|Exception"; then
+      printf '%s\n' "$out" | tail -8 >&2
+      echo "FAIL: jekyll build reported errors — serving nothing new" >&2
       return 1
     fi
+    printf '%s\n' "$out" | grep -E "done in|destination" >&2 || true
     SERVEDIR="$RUNDIR/site"
   else
     SERVEDIR="$DIR"
