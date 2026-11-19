@@ -1,0 +1,43 @@
+{
+  "high_level_description": "A luminous human brain suspended in a tall glass specimen jar with a brass stopper, painted as a moody near-monochrome sepia watercolor plate on dark parchment, wide and cinematic; one centered hero object, generous empty negative space to the right.",
+  "style_description": {
+    "aesthetics": "moody and reverent; dramatic watercolor with strong chiaroscuro, a deeply dark field with a single faint glow lifting the subject, strictly near-monochrome sepia with minimal warmth, a little eerie",
+    "lighting": "a single soft pale glow from within the glass jar is the main light; the surroundings sit in deep soft shadow, readable but clearly dark, the far edges fading to near-black parchment with a gentle vignette",
+    "medium": "watercolor on grained dark parchment, delicate linework, soft transparent washes, near-monochrome sepia, desaturated, visible paper grain",
+    "art_style": "an antique scientific plate from a Victorian field volume, dramatic, wide and cinematic, the subject catalogued as a specimen",
+    "color_palette": [
+      "#100E0B",
+      "#2A251D",
+      "#4E463A",
+      "#837A69",
+      "#C4BAA7",
+      "#E2DCCE"
+    ]
+  },
+  "compositional_deconstruction": {
+    "background": "A dark grained aged-parchment ground, soft vignette to near-black at the edges; the field is deliberately sparse \u2014 a faint suggestion of a wooden shelf line behind the object, dimly lit but legible, in the same near-monochrome sepia palette.",
+    "elements": [
+      {
+        "type": "obj",
+        "bbox": [
+          100,
+          120,
+          900,
+          600
+        ],
+        "desc": "a tall glass specimen jar with a brass stopper, centered in the LEFT two-thirds of the frame and slightly left of dead-center, containing a luminous human brain that glows softly from within; the glass catches one pale highlight along its rim; fine watercolor linework for the glass, soft washes for the brain's hemispheres; the right third of the frame stays open dark parchment"
+      },
+      {
+        "type": "text",
+        "bbox": [
+          850,
+          640,
+          900,
+          760
+        ],
+        "desc": "a small hand-written specimen label",
+        "text": "PL. I"
+      }
+    ]
+  }
+}
